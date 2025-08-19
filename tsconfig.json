@@ -1,0 +1,17 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "lib": ["ESNext", "DOM"],
+    "jsx": "preserve",
+    "jsxImportSource": "solid-js",
+    "paths": {
+      "solid-motion": ["./src/index.tsx"]
+    }
+  },
+  "include": ["src", "example"],
+  "references": [
+    {
+      "path": "./tsconfig.node.json"
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+  "files": {
+    "includes": ["**", "!dist", "!src/apis/demo.ts", "!src/App.css"]
+  },
+  "vcs": {
+    "clientKind": "git",
+    "defaultBranch": "main",
+    "enabled": true,
+    "useIgnoreFile": false
+  },
+  "formatter": {
+    "indentStyle": "space",
+    "lineWidth": 160
+  },
+  "linter": {
+    "domains": {
+      // 启用所有Solid规则
+      "solid": "all"
+    },
+    "enabled": true,
+    "rules": {
+      // 关闭无障碍检查
+      "a11y": "off",
+      "style": {
+        // biome默认严重性 https://biomejs.dev/linter/#change-rule-severity
+        "noShoutyConstants": "on"
+      },
+      "suspicious": {
+        "noExplicitAny": "error",
+        "useAwait": "error"
+      }
+    }
+  },
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": "on",
+        "useSortedAttributes": "on",
+        "useSortedKeys": "on",
+        "useSortedProperties": "on"
+      }
+    },
+    "enabled": true
+  },
+  "javascript": {
+    "parser": {
+      "unsafeParameterDecoratorsEnabled": true
+    }
+  },
+  "json": {
+    "assist": {
+      "enabled": false
+    }
+  }
+}
