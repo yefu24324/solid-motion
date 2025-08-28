@@ -34,16 +34,42 @@ import {Motion} from "solid-motion"
 function App() {
   return (
     <Motion
-	initial={{ opacity: 0, rotate: -30 }}
-	animate={{ opacity: 1, rotate: 0 }}
-	exit={{ opacity: 0, rotate: 30 }}
-	transition={{ duration: 0.5 }}
->
-	This is a notification!
-</Motion>
+			initial={{ opacity: 0, rotate: -30 }}
+			animate={{ opacity: 1, rotate: 0 }}
+			exit={{ opacity: 0, rotate: 30 }}
+			transition={{ duration: 0.5 }}
+		>
+			This is a notification!
+		</Motion>
   )
 }
 ```
+
+### Using Motion Values
+
+#### Usage with Solid Reactivity
+```tsx
+import { createSpring } from "solid-motion";
+
+const [cursorPos, setCursorPos] = createSignal<{ x: number, y: number}>({ x: 0, y: 0 });
+
+const springX = createSpring(() => cursorPos().x);
+```
+
+Update cursorPos when mouse moves
+
+```tsx
+setCursorPos({ x: 500, y: 0 });
+```
+
+Track springX changes in a reactive way
+```tsx
+createEffect(() => {
+	console.log("spring change: ", springX());
+})
+```
+
+> Native functions provided with the `create` prefix all represent reactive handling. Spring also provides a `useSpring` function, which also has the ability to receive reactive values, but returns a motion `MotionValue` object.
 
 ## Acknowledgments
 

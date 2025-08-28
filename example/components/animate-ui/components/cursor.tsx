@@ -70,8 +70,6 @@ function CursorProvider(props: CursorProviderProps) {
     <CursorContext.Provider value={contextValue()}>
       <div data-slot="cursor-provider" ref={containerRef} {...props}>
         {props.children}
-        <div />
-        asd asd
       </div>
     </CursorContext.Provider>
   );

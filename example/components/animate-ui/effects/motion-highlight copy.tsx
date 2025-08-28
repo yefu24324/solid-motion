@@ -1,5 +1,5 @@
 import { AnimatePresence, motion, type Transition } from "motion/react";
-import { createContext, createSignal, type JSX, useContext } from "solid-js";
+import { createContext, type JSX, useContext } from "solid-js";
 import { cn } from "../../../lib/utils.js";
 
 type MotionHighlightMode = "children" | "parent";
@@ -110,46 +110,53 @@ function MotionHighlight<T extends string>({ ref, ...props }: MotionHighlightPro
     mode = "children",
   } = props;
 
-  let localRef: HTMLDivElement | null = null;
+  const localRef = React.useRef<HTMLDivElement>(null);
+  React.useImperativeHandle(ref, () => localRef.current as HTMLDivElement);
 
-  const [activeValue, setActiveValue] = createSignal<T | null>(value ?? defaultValue ?? null);
-  const [boundsState, setBoundsState] = createSignal<Bounds | null>(null);
-  const [activeClassNameState, setActiveClassNameState] = createSignal<string>("");
+  const [activeValue, setActiveValue] = React.useState<T | null>(value ?? defaultValue ?? null);
+  const [boundsState, setBoundsState] = React.useState<Bounds | null>(null);
+  const [activeClassNameState, setActiveClassNameState] = React.useState<string>("");
 
-  const safeSetActiveValue = (id: T | null) => {
-    setActiveValue((prev) => (prev === id ? prev : id));
-    if (id !== activeValue()) onValueChange?.(id as T);
-  };
+  const safeSetActiveValue = React.useCallback(
+    (id: T | null) => {
+      setActiveValue((prev) => (prev === id ? prev : id));
+      if (id !== activeValue) onValueChange?.(id as T);
+    },
+    [activeValue, onValueChange],
+  );
 
-  const safeSetBounds = (bounds: DOMRect) => {
-    if (!localRef) return;
+  const safeSetBounds = React.useCallback(
+    (bounds: DOMRect) => {
+      if (!localRef.current) return;
 
-    const boundsOffset = (props as ParentModeMotionHighlightProps)?.boundsOffset ?? {
-      height: 0,
-      left: 0,
-      top: 0,
-      width: 0,
-    };
+      const boundsOffset = (props as ParentModeMotionHighlightProps)?.boundsOffset ?? {
+        height: 0,
+        left: 0,
+        top: 0,
+        width: 0,
+      };
 
-    const containerRect = localRef.getBoundingClientRect();
-    const newBounds: Bounds = {
-      height: bounds.height + (boundsOffset.height ?? 0),
-      left: bounds.left - containerRect.left + (boundsOffset.left ?? 0),
-      top: bounds.top - containerRect.top + (boundsOffset.top ?? 0),
-      width: bounds.width + (boundsOffset.width ?? 0),
-    };
+      const containerRect = localRef.current.getBoundingClientRect();
+      const newBounds: Bounds = {
+        height: bounds.height + (boundsOffset.height ?? 0),
+        left: bounds.left - containerRect.left + (boundsOffset.left ?? 0),
+        top: bounds.top - containerRect.top + (boundsOffset.top ?? 0),
+        width: bounds.width + (boundsOffset.width ?? 0),
+      };
 
-    setBoundsState((prev) => {
-      if (prev && prev.top === newBounds.top && prev.left === newBounds.left && prev.width === newBounds.width && prev.height === newBounds.height) {
-        return prev;
-      }
-      return newBounds;
-    });
-  };
+      setBoundsState((prev) => {
+        if (prev && prev.top === newBounds.top && prev.left === newBounds.left && prev.width === newBounds.width && prev.height === newBounds.height) {
+          return prev;
+        }
+        return newBounds;
+      });
+    },
+    [props],
+  );
 
-  const clearBounds = () => {
+  const clearBounds = React.useCallback(() => {
     setBoundsState((prev) => (prev === null ? prev : null));
-  };
+  }, []);
 
   React.useEffect(() => {
     if (value !== undefined) setActiveValue(value);
@@ -182,11 +189,11 @@ function MotionHighlight<T extends string>({ ref, ...props }: MotionHighlightPro
               {boundsState && (
                 <motion.div
                   animate={{
-                    height: boundsState().height,
-                    left: boundsState().left,
+                    height: boundsState.height,
+                    left: boundsState.left,
                     opacity: 1,
-                    top: boundsState().top,
-                    width: boundsState().width,
+                    top: boundsState.top,
+                    width: boundsState.width,
                   }}
                   class={cn("absolute bg-muted z-0", className, activeClassNameState)}
                   data-slot="motion-highlight"
@@ -198,11 +205,11 @@ function MotionHighlight<T extends string>({ ref, ...props }: MotionHighlightPro
                     },
                   }}
                   initial={{
-                    height: boundsState().height,
-                    left: boundsState().left,
+                    height: boundsState.height,
+                    left: boundsState.left,
                     opacity: 0,
-                    top: boundsState().top,
-                    width: boundsState().width,
+                    top: boundsState.top,
+                    width: boundsState.width,
                   }}
                   transition={transition}
                 />

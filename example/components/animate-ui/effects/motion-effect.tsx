@@ -1,15 +1,13 @@
-import type { HTMLMotionProps, Transition, UseInViewOptions, Variant } from "motion/react";
-import { createSignal, type JSX } from "solid-js";
+import type { DOMKeyframesDefinition, Transition } from "motion/react";
+import type { ComponentProps, JSX, Ref } from "solid-js";
 import { Motion, Presence } from "solid-motion";
 
-type MotionEffectProps = HTMLMotionProps<"div"> & {
+type MotionEffectProps = ComponentProps<"div"> & {
+  ref?: Ref<HTMLDivElement>;
   children: JSX.Element;
-  className?: string;
+  class?: string;
   transition?: Transition;
   delay?: number;
-  inView?: boolean;
-  inViewMargin?: UseInViewOptions["margin"];
-  inViewOnce?: boolean;
   blur?: string | boolean;
   slide?:
     | {
@@ -26,32 +24,11 @@ type MotionEffectProps = HTMLMotionProps<"div"> & {
     | boolean;
 };
 
-function MotionEffect({
-  ref,
-  children,
-  className,
-  transition = { damping: 20, stiffness: 200, type: "spring" },
-  delay = 0,
-  inView = false,
-  inViewMargin = "0px",
-  inViewOnce = true,
-  blur = false,
-  slide = false,
-  fade = false,
-  zoom = false,
-  ...props
-}: MotionEffectProps) {
-  const [_localRef, setLocalRef] = createSignal<HTMLDivElement>();
+function MotionEffect(props: MotionEffectProps) {
+  const { delay = 0, blur = false, slide = false, fade = false, zoom = false } = props;
 
-  // const inViewResult = useInView(localRef, {
-  //   once: inViewOnce,
-  //   margin: inViewMargin,
-  // });
-  // const isInView = !inView || inViewResult;
-  const isInView = !inView;
-
-  const hiddenVariant: Variant = {};
-  const visibleVariant: Variant = {};
+  const hiddenVariant: DOMKeyframesDefinition = {};
+  const visibleVariant: DOMKeyframesDefinition = {};
 
   if (slide) {
     const offset = typeof slide === "boolean" ? 100 : (slide.offset ?? 100);
@@ -79,23 +56,18 @@ function MotionEffect({
   return (
     <Presence>
       <Motion
-        animate={isInView ? "visible" : "hidden"}
-        class={className}
+        animate={visibleVariant}
+        class={props.class}
         data-slot="motion-effect"
-        exit="hidden"
-        initial="hidden"
-        ref={setLocalRef}
+        exit={hiddenVariant}
+        initial={hiddenVariant}
+        ref={props.ref}
         transition={{
-          ...transition,
-          delay: (transition?.delay ?? 0) + delay,
+          ...props.transition,
+          delay: (props.transition?.delay ?? 0) + delay,
         }}
-        variants={{
-          hidden: hiddenVariant,
-          visible: visibleVariant,
-        }}
-        {...props}
       >
-        {children}
+        {props.children}
       </Motion>
     </Presence>
   );

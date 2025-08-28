@@ -1,7 +1,5 @@
-import { Blocks, BringToFront, GitPullRequest } from "lucide-react";
-import { MotionHighlight } from "@/components/animate-ui/effects/motion-highlight";
-
-import ShadcnIcon from "@/components/icons/shadcn-icon";
+import { Blocks, BringToFront, GitPullRequest, EqualApproximately } from "lucide-solid";
+import { MotionHighlight } from "../effects/motion-highlight.jsx";
 
 const CARDS = [
   {
@@ -18,7 +16,7 @@ const CARDS = [
   },
   {
     description: "The components are designed to be used with Shadcn UI components.",
-    icon: ShadcnIcon,
+    icon: EqualApproximately,
     title: "Complementary to Shadcn UI",
     value: "3",
   },

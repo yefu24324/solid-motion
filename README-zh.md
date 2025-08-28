@@ -27,21 +27,48 @@ yarn add solid-motion
 ### 基本的 Enter/Exit 动画
 
 ```tsx
-import {Motion} from "solid-motion"
+import { Motion } from "solid-motion"
 
 function App() {
   return (
     <Motion
-	initial={{ opacity: 0, rotate: -30 }}
-	animate={{ opacity: 1, rotate: 0 }}
-	exit={{ opacity: 0, rotate: 30 }}
-	transition={{ duration: 0.5 }}
->
-	This is a notification!
-</Motion>
+			initial={{ opacity: 0, rotate: -30 }}
+			animate={{ opacity: 1, rotate: 0 }}
+			exit={{ opacity: 0, rotate: 30 }}
+			transition={{ duration: 0.5 }}
+		>
+			This is a notification!
+		</Motion>
   )
 }
 ```
+
+### 使用motion值
+
+#### 带有Solid响应式的用法
+```tsx
+import { createSpring } from "solid-motion";
+
+const [cursorPos, setCursorPos] = createSignal<{ x: number, y: number}>({ x: 0, y: 0 });
+
+const springX = createSpring(() => cursorPos().x);
+```
+
+鼠标移动时更新cursorPos
+
+```tsx
+setCursorPos({ x: 500, y: 0 });
+```
+
+以响应式的方式跟踪springX变化
+```tsx
+createEffect(() => {
+	console.log("spring change: ", springX());
+})
+```
+
+> 以create前缀提供的原生函数均代表提供了响应式处理，spring也提供了`useSpring`函数，其也拥有接收响应式值的功能，但返回的是motion的`MotionValue`对象
+
 
 ## 致谢
 
