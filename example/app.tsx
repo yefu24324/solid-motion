@@ -1,6 +1,9 @@
 import { createSignal, For, Show } from "solid-js";
 import "./app.css";
+
 import { MotionEffectImageGridDemo } from "./components/animate-ui/demo/motion-effect-image-grid-demo.jsx";
+import { MotionHighlightCardsHoverDemo } from "./components/animate-ui/demo/motion-highlight-cards-hover-demo.jsx";
+import { TextLoopDemo } from "./components/motion/text-loop-demo.jsx";
 import { Base } from "./demo/base.jsx";
 import { AnimationUICursor } from "./demo/demo1.jsx";
 import { SolidMotiononeExample } from "./demo/demo2.jsx";
@@ -24,10 +27,14 @@ export default function App() {
       label: "Motion Effect",
       value: "MotionEffectImageGridDemo",
     },
-    // {
-    //   label: "Motion Highlight",
-    //   value: "MotionHighlightCardsHoverDemo",
-    // },
+    {
+      label: "Text Loop",
+      value: "TextLoopDemo",
+    },
+    {
+      label: "Motion Highlight",
+      value: "MotionHighlightCardsHoverDemo",
+    },
   ];
   return (
     <main class="container prose-xl mx-auto px-8 py-16">
@@ -59,9 +66,12 @@ export default function App() {
         <Show when={tab() === "MotionEffectImageGridDemo"}>
           <MotionEffectImageGridDemo />
         </Show>
-        {/* <Show when={tab() === "MotionHighlightCardsHoverDemo"}>
+        <Show when={tab() === "TextLoopDemo"}>
+          <TextLoopDemo />
+        </Show>
+        <Show when={tab() === "MotionHighlightCardsHoverDemo"}>
           <MotionHighlightCardsHoverDemo />
-        </Show> */}
+        </Show>
       </div>
     </main>
   );

@@ -6,9 +6,13 @@
 
 **一个为SolidJS打造的轻量、高性能动画库，由[Motion](https://motion.dev/)驱动。**
 
-## 介绍
+## 介绍 Motion for Solid 
 
-Motion for Solid 参考motion/react设计为SolidJS实现的动画库,
+参考motion/react设计为SolidJS实现的动画库,
+
+**这个项目还处在测试阶段，并且作者还在学习motion/react的过程中，我期望在接下来的Solid项目中能够使用非常优秀的动画组件，收集在React项目中我觉得优秀的组件并在项目[motion-primitives-solid](github.com/yefu24324/motion-primitives-solid)中提供Solid的开源代码，我正在探寻solid-motion在生产级应用可能出现的问题。**
+
+可访问[在线示例](https://motion-primitives-solid.yefu24324.com)
 
 ## 安装
 

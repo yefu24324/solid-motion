@@ -8,9 +8,13 @@
 
  [**中文文档**](./README-zh.md) 
  
-## Introduction
+## Introduction Motion for Solid
 
-Motion for Solid is an animation library for SolidJS inspired by motion/react design.
+is an animation library for SolidJS inspired by motion/react design.
+
+**This project is still in the testing phase, and the author is currently learning motion/react. I hope to utilize excellent animation components in upcoming Solid projects. I am collecting React components that I find outstanding and providing open-source Solid implementations in the project [motion-primitives-solid](github.com/yefu24324/motion-primitives-solid). I am exploring potential issues solid-motion may face in production-grade applications.**
+
+Visit the [online preview](https://motion-primitives-solid.yefu24324.com).
 
 ## Installation
 

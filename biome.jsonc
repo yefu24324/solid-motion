@@ -35,7 +35,13 @@
   "assist": {
     "actions": {
       "source": {
-        "organizeImports": "on",
+        "organizeImports": {
+          "level": "on",
+          "options": {
+            // 导入排序将分成两组, 最上面为依赖包, 下面是项目内部依赖
+            "groups": [[":NODE:", ":PACKAGE:"], ":BLANK_LINE:", [":ALIAS:", ":PATH:"]]
+          }
+        },
         "useSortedAttributes": "on",
         "useSortedKeys": "on",
         "useSortedProperties": "on"

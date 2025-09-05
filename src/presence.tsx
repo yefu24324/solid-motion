@@ -1,7 +1,7 @@
-import { resolveFirst } from "@solid-primitives/refs";
-import { createSwitchTransition } from "@solid-primitives/transition-group";
+import { resolveElements } from "@solid-primitives/refs";
+import { createListTransition } from "@solid-primitives/transition-group";
 import { type AnimationOptions, animate, type DOMKeyframesDefinition } from "motion";
-import { batch, createContext, createSignal, type FlowComponent, type Setter } from "solid-js";
+import { createContext, createSignal, type FlowComponent, type Setter } from "solid-js";
 
 type MotionOption = {
   initial?: DOMKeyframesDefinition;
@@ -41,33 +41,30 @@ export const Presence: FlowComponent<{
   const [motionOption, setMotionOption] = createSignal<MotionOption>({});
   const state = { setMotionOption };
 
-  const render = (
-    <PresenceContext.Provider value={state}>
-      {createSwitchTransition(
-        resolveFirst(() => props.children),
-        {
-          mode: props.exitBeforeEnter ? "out-in" : "parallel",
-          onEnter(_el, done) {
-            batch(() => {
-              done();
+  function render() {
+    const resolved = resolveElements(() => props.children);
+    const transitions = createListTransition(resolved.toArray, {
+      appear: true,
+      onChange({ finishRemoved, removed }) {
+        const { exit, transition } = motionOption();
+        for (const el of removed) {
+          if (!el.isConnected) {
+            finishRemoved([el]);
+            continue;
+          }
+          if (exit) {
+            animate(el, exit, transition).finished.then(() => {
+              finishRemoved([el]);
             });
-          },
-          onExit(el, done) {
-            batch(() => {
-              const { exit, transition } = motionOption();
-              if (exit) {
-                animate(el, exit, transition).finished.then(() => {
-                  done();
-                });
-              } else {
-                done();
-              }
-            });
-          },
-        },
-      )()}
-    </PresenceContext.Provider>
-  );
+          } else {
+            finishRemoved([el]);
+          }
+        }
+      },
+    });
 
-  return render;
+    return <>{transitions()}</>;
+  }
+
+  return <PresenceContext.Provider value={state}>{render()}</PresenceContext.Provider>;
 };
