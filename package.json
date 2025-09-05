@@ -1,6 +1,6 @@
 {
   "name": "solid-motion",
-  "version": "1.0.0-alpha.1",
+  "version": "1.0.0-alpha.2",
   "description": "A modern animation library for SolidJs",
   "license": "MIT",
   "author": "Yefu <243249439@qq.com>;",
@@ -17,9 +17,9 @@
     "dev": "vite",
     "prepublishOnly": "pnpm build",
     "build": "tsup",
-    "check": "tsc --noEmit",
-    "lint": "biome lint --write --unsafe",
-    "format": "biome format --write"
+    "lint": "biome lint",
+    "format": "biome format --write",
+    "check": "biome check --write"
   },
   "type": "module",
   "files": [
