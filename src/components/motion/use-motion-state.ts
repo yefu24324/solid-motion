@@ -5,7 +5,15 @@ import { useMotionConfig } from "@/components/context/motion-config";
 import { MotionContext } from "@/components/context/motion-context";
 import type { MotionProps } from "@/components/motion/types";
 import { domMax } from "@/features/dom-max";
-import { MotionState } from "@/state";
+import { MotionState, mountedStates } from "@/state";
+
+const list = [];
+export function beforeUpdate(callback: VoidFunction) {
+  // mountedStates.forEach((state) => state.beforeUpdate());
+  mountedStates;
+  list.forEach((state) => state.beforeUpdate());
+  callback();
+}
 
 export function useMotionState(props: MotionProps) {
   // layout group context
@@ -45,13 +53,14 @@ export function useMotionState(props: MotionProps) {
   }
 
   const state = new MotionState(getMotionProps(), context);
-
+  list.push(state);
   state.beforeMount();
 
   createEffect(() => {
     console.log("update", getMotionProps());
     state.update(getMotionProps());
   });
+
   return {
     state,
   };
