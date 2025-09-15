@@ -23,16 +23,7 @@ export function Motion(props: MotionProps) {
 
   return (
     <MotionContextProvider animate={props.animate} initial={props.initial}>
-      <Dynamic
-        component={local.as || "div"}
-        {...rest}
-        // onClick={() => {
-        //   state.beforeUpdate();
-        //   local.onClick?.();
-        //   // state.update(props);
-        // }}
-        ref={setEl}
-      />
+      <Dynamic component={local.as || "div"} {...rest} ref={setEl} />
     </MotionContextProvider>
   );
 }
