@@ -1,6 +1,7 @@
 import { type AnimationOptions, animate, type DOMKeyframesDefinition } from "motion";
 import { type ComponentProps, createContext, createEffect, createSignal, type JSX, splitProps, untrack, useContext, type ValidComponent } from "solid-js";
 import { Dynamic } from "solid-js/web";
+
 import { PresenceContext } from "./presence.jsx";
 
 export const ParentContext = createContext<{}>();
