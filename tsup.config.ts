@@ -2,7 +2,7 @@ import * as tsup from "tsup";
 import * as preset from "tsup-preset-solid";
 
 const preset_options: preset.PresetOptions = {
-  cjs: true,
+  cjs: false,
   drop_console: true,
   entries: { entry: "src/index.tsx" },
 };

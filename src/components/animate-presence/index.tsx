@@ -1,9 +1,11 @@
 import { resolveElements } from "@solid-primitives/refs";
 import { createListTransition } from "@solid-primitives/transition-group";
-import type { FlowProps } from "solid-js";
+import type { FlowComponent } from "solid-js";
 
+import { AnimatePresenceContextProvider } from "@/components/context/animate-presence-context";
 import { mountedStates } from "@/state";
 import { delay } from "@/utils/delay";
+import type { AnimatePresenceProps } from "./types";
 
 function findMotionElement(el: Element): Element | null {
   let current: Element | null = el;
@@ -17,11 +19,7 @@ function findMotionElement(el: Element): Element | null {
   return null;
 }
 
-export function AnimatePresence(
-  props: FlowProps<{
-    onExitComplete?: VoidFunction;
-  }>,
-) {
+export const AnimatePresence: FlowComponent<AnimatePresenceProps> = (props) => {
   const exitDom = new Map<Element, boolean>();
 
   function exit(el: Element, done: VoidFunction) {
@@ -78,25 +76,27 @@ export function AnimatePresence(
     });
   }
 
-  function render() {
-    const resolved = resolveElements(() => props.children);
-    const transitions = createListTransition(resolved.toArray, {
-      appear: true,
-      onChange({ finishRemoved, removed }) {
-        for (const el of removed) {
-          if (!el.isConnected) {
-            finishRemoved([el]);
-            continue;
-          }
-          exit(el, () => {
-            finishRemoved([el]);
-          });
+  const resolved = resolveElements(() => props.children);
+  const transitions = createListTransition(resolved.toArray, {
+    appear: true,
+    onChange({ finishRemoved, removed }) {
+      for (const el of removed) {
+        if (!el.isConnected) {
+          finishRemoved([el]);
+          continue;
         }
-      },
-    });
+        exit(el, () => {
+          finishRemoved([el]);
+        });
+      }
+    },
+  });
+  return (
+    <AnimatePresenceContextProvider custom={props.custom} initial={props.initial}>
+      {transitions()}
+    </AnimatePresenceContextProvider>
+  );
+};
 
-    return <>{transitions()}</>;
-  }
-
-  return <>{render()}</>;
-}
+export * from "./presence";
+export * from "./types";

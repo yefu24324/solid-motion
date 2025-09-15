@@ -1,18 +1,18 @@
-import { createEffect, useContext } from "solid-js";
+import { useContext } from "solid-js";
 
 import { LayoutGroupContext } from "@/components/context/layout-group-context";
 import { useMotionConfig } from "@/components/context/motion-config";
 import { MotionContext } from "@/components/context/motion-context";
 import type { MotionProps } from "@/components/motion/types";
 import { domMax } from "@/features/dom-max";
-import { MotionState, mountedStates } from "@/state";
+import { MotionState } from "@/state";
+import type { Options } from "@/types";
 
-const list = [];
+const list: Array<{ state: MotionState; getMotionProps: () => Options }> = [];
 export function beforeUpdate(callback: VoidFunction) {
-  // mountedStates.forEach((state) => state.beforeUpdate());
-  mountedStates;
-  list.forEach((state) => state.beforeUpdate());
+  list.forEach((instance) => instance.state.beforeUpdate());
   callback();
+  list.forEach((instance) => instance.state.update(instance.getMotionProps()));
 }
 
 export function useMotionState(props: MotionProps) {
@@ -53,13 +53,8 @@ export function useMotionState(props: MotionProps) {
   }
 
   const state = new MotionState(getMotionProps(), context);
-  list.push(state);
+  list.push({ getMotionProps, state });
   state.beforeMount();
-
-  createEffect(() => {
-    console.log("update", getMotionProps());
-    state.update(getMotionProps());
-  });
 
   return {
     state,
