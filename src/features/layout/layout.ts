@@ -16,7 +16,6 @@ export class LayoutFeature extends Feature {
   }
 
   update(): void {
-    this.state.willUpdate("beforeUpdate");
     this.didUpdate();
   }
 

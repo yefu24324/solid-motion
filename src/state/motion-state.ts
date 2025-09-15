@@ -110,10 +110,10 @@ export class MotionState {
       this.startAnimation?.();
     }
     if (this.options.layoutId) {
-      mountedLayoutIds.add(this.options.layoutId)
+      mountedLayoutIds.add(this.options.layoutId);
       frame.render(() => {
-        mountedLayoutIds.clear()
-      })
+        mountedLayoutIds.clear();
+      });
     }
   }
 
@@ -132,6 +132,11 @@ export class MotionState {
       this.currentProcess = null;
       this.animateUpdates();
     });
+  }
+
+  // Called before updating, executes in parent-to-child order
+  beforeUpdate() {
+    this.featureManager.beforeUpdate();
   }
 
   // Update motion state with new options
