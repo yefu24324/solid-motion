@@ -1,5 +1,5 @@
 import { createSignal, Show } from "solid-js";
-import { Motion, Presence } from "solid-motion";
+import { AnimatePresence, Motion } from "solid-motion";
 
 export function SolidMotiononeExample() {
   const [showNotification, setShowNotification] = createSignal(false);
@@ -12,7 +12,7 @@ export function SolidMotiononeExample() {
         Toggle Notification
       </button>
 
-      <Presence>
+      <AnimatePresence>
         <Show when={showNotification()}>
           <Motion
             animate={{ opacity: 1, rotate: 0 }}
@@ -24,7 +24,7 @@ export function SolidMotiononeExample() {
             This is a notification!
           </Motion>
         </Show>
-      </Presence>
+      </AnimatePresence>
 
       {/* Example 2: Infinite Pulse */}
       <Motion
