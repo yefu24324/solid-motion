@@ -7,7 +7,7 @@ import { TextLoopDemo } from "./components/motion/text-loop-demo.jsx";
 import { Base } from "./demo/base.jsx";
 import { AnimationUICursor } from "./demo/demo1.jsx";
 import { SolidMotiononeExample } from "./demo/demo2.jsx";
-import { LayoutDemo } from "./demo/layout-demo.jsx";
+import { LayoutDemo } from "./demo/layout-demo";
 
 export default function App() {
   const [tab, setTab] = createSignal("Base");
@@ -64,6 +64,7 @@ export default function App() {
         </Show>
         <Show when={tab() === "LayoutDemo"}>
           <LayoutDemo />
+          asd
         </Show>
         <Show when={tab() === "AnimationUICursor"}>
           <AnimationUICursor />

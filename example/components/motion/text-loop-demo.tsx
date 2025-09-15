@@ -1,7 +1,7 @@
 import { resolveElements } from "@solid-primitives/refs";
 import type { DOMKeyframesDefinition, Transition } from "motion";
 import { createEffect, createSignal, For, type JSX, onCleanup, Show } from "solid-js";
-import { Motion, Presence } from "solid-motion";
+import { AnimatePresence, Motion } from "solid-motion";
 
 import { cn } from "../../lib/utils.js";
 
@@ -97,7 +97,7 @@ export function TextLoop(props: TextLoopProps) {
 
   return (
     <div class={cn("relative inline-block whitespace-nowrap", props.class)}>
-      <Presence exitBeforeEnter={true}>
+      <AnimatePresence exitBeforeEnter={true}>
         <For each={items.toArray()}>
           {(child, index) => (
             <Show when={currentIndex() === index()}>
@@ -112,7 +112,7 @@ export function TextLoop(props: TextLoopProps) {
             </Show>
           )}
         </For>
-      </Presence>
+      </AnimatePresence>
     </div>
   );
 }

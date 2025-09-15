@@ -1,7 +1,6 @@
-import { animate } from "motion";
-import { motionValue } from "motion-dom";
 import { type Accessor, createContext, createEffect, createSignal, type JSX, onCleanup, type Setter, Show, useContext } from "solid-js";
-import { createSpring, Motion, Presence } from "solid-motion";
+import { AnimatePresence, createSpring, Motion } from "solid-motion";
+
 import { cn } from "../../../lib/utils.js";
 
 type CursorContextType = {
@@ -101,7 +100,7 @@ function Cursor(props: CursorProps) {
   });
 
   return (
-    <Presence>
+    <AnimatePresence>
       <Show when={isActive()}>
         <Motion
           animate={{ opacity: 1, scale: 1 }}
@@ -115,7 +114,7 @@ function Cursor(props: CursorProps) {
           {props.children}
         </Motion>
       </Show>
-    </Presence>
+    </AnimatePresence>
   );
 }
 
@@ -178,8 +177,6 @@ function CursorFollow(props: CursorFollowProps) {
     return newOffset;
   };
 
-  const x = motionValue(0);
-  const y = motionValue(0);
   const springX = createSpring(
     () => {
       const offset = calculateOffset();
@@ -216,27 +213,8 @@ function CursorFollow(props: CursorFollowProps) {
     }
   });
 
-  createEffect(() => {
-    const offset = calculateOffset();
-    const cursorRect = cursorRef()?.getBoundingClientRect();
-    const cursorWidth = cursorRect?.width ?? 20;
-    const cursorHeight = cursorRect?.height ?? 20;
-    animate(x, cursorPos().x - offset.x + cursorWidth / 2, {
-      bounce: 0,
-      damping: 50,
-      stiffness: 500,
-      type: "spring",
-    });
-    animate(y, cursorPos().y - offset.y + cursorHeight / 2, {
-      bounce: 0,
-      damping: 50,
-      stiffness: 500,
-      type: "spring",
-    });
-  });
-
   return (
-    <Presence>
+    <AnimatePresence>
       <Show when={isActive()}>
         <Motion
           animate={{
@@ -255,7 +233,7 @@ function CursorFollow(props: CursorFollowProps) {
           {children}
         </Motion>
       </Show>
-    </Presence>
+    </AnimatePresence>
   );
 }
 
