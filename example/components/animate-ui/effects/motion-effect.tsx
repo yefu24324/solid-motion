@@ -1,6 +1,6 @@
 import type { DOMKeyframesDefinition, Transition } from "motion/react";
 import type { ComponentProps, JSX, Ref } from "solid-js";
-import { Motion, Presence } from "solid-motion";
+import { AnimatePresence, Motion } from "solid-motion";
 
 type MotionEffectProps = ComponentProps<"div"> & {
   ref?: Ref<HTMLDivElement>;
@@ -54,7 +54,7 @@ function MotionEffect(props: MotionEffectProps) {
   }
 
   return (
-    <Presence>
+    <AnimatePresence>
       <Motion
         animate={visibleVariant}
         class={props.class}
@@ -69,7 +69,7 @@ function MotionEffect(props: MotionEffectProps) {
       >
         {props.children}
       </Motion>
-    </Presence>
+    </AnimatePresence>
   );
 }
 

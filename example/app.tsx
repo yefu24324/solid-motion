@@ -7,6 +7,7 @@ import { TextLoopDemo } from "./components/motion/text-loop-demo.jsx";
 import { Base } from "./demo/base.jsx";
 import { AnimationUICursor } from "./demo/demo1.jsx";
 import { SolidMotiononeExample } from "./demo/demo2.jsx";
+import { LayoutDemo } from "./demo/layout-demo";
 
 export default function App() {
   const [tab, setTab] = createSignal("Base");
@@ -14,6 +15,10 @@ export default function App() {
     {
       label: "Base",
       value: "base",
+    },
+    {
+      label: "Layout",
+      value: "LayoutDemo",
     },
     {
       label: "AnimationUICursor",
@@ -56,6 +61,10 @@ export default function App() {
       <div class="m-auto flex h-full max-w-lg select-none flex-col justify-center gap-8 text-black" id="demo">
         <Show when={tab() === "base"}>
           <Base />
+        </Show>
+        <Show when={tab() === "LayoutDemo"}>
+          <LayoutDemo />
+          asd
         </Show>
         <Show when={tab() === "AnimationUICursor"}>
           <AnimationUICursor />

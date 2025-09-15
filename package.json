@@ -45,8 +45,12 @@
     "@solid-primitives/media": "^2.3.3",
     "@solid-primitives/refs": "^1.0.8",
     "@solid-primitives/transition-group": "^1.0.5",
+    "es-toolkit": "^1.39.10",
+    "framer-motion": "^12.23.12",
+    "hey-listen": "^1.0.8",
     "motion": "^12.23.12",
-    "motion-dom": "^12.23.12"
+    "motion-dom": "^12.23.12",
+    "motion-utils": "^12.23.6"
   },
   "devDependencies": {
     "@biomejs/biome": "2.1.3",
