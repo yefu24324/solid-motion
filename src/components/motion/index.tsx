@@ -29,3 +29,4 @@ export function Motion(props: MotionProps) {
 }
 
 export type { MotionProps } from "./types";
+export * from "./use-motion-state";

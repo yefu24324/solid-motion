@@ -5,4 +5,4 @@
 // export * from './motion/m'
 export { mountedStates } from "@/state";
 export * from "./animate-presence";
-export { Motion, type MotionProps } from "./motion";
+export { animateView, Motion, type MotionProps } from "./motion";

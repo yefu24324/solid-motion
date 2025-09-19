@@ -30,6 +30,9 @@ export class MotionState {
   };
   public context: IMotionContext;
 
+  // Track child components for proper lifecycle ordering
+  private children: Set<MotionState> = new Set();
+
   // Track which animation states are currently active
   public activeStates: Partial<Record<StateType, boolean>> = {
     animate: true,
@@ -55,10 +58,10 @@ export class MotionState {
   // Visual element instance from Framer Motion
   public visualElement: VisualElement<Element>;
 
-  constructor(options: Options, context: IMotionContext, parent?: MotionState) {
+  constructor(options: Options, context: IMotionContext) {
     this.id = `motion-state-${id++}`;
     this.options = options;
-    this.parent = parent;
+    this.parent = context.state;
     this.context = context;
 
     // Initialize with either initial or animate variant
@@ -132,6 +135,35 @@ export class MotionState {
       this.currentProcess = null;
       this.animateUpdates();
     });
+  }
+
+  unmount(unMountChildren = false) {
+    /**
+     * Unlike React, within the same update cycle, the execution order of unmount and mount depends on the component's order in the component tree.
+     * Here we delay unmount for components with layoutId to ensure unmount executes after mount for layout animations.
+     */
+    const shouldDelay = this.options.layoutId && !mountedLayoutIds.has(this.options.layoutId);
+    const unmount = () => {
+      const unmountState = () => {
+        if (unMountChildren) {
+          Array.from(this.children).reverse().forEach(this.unmountChild);
+        }
+        this.parent?.children?.delete(this);
+        mountedStates.delete(this.element);
+        this.featureManager.unmount();
+        this.visualElement?.unmount();
+        // clear animation
+        this.clearAnimation();
+      };
+      // Delay unmount if needed for layout animations
+      shouldDelay ? Promise.resolve().then(unmountState) : unmountState();
+    };
+
+    unmount();
+  }
+
+  private unmountChild(child: MotionState) {
+    child.unmount(true);
   }
 
   // Called before updating, executes in parent-to-child order
