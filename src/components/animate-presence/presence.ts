@@ -1,7 +1,6 @@
 import { onMount } from "solid-js";
 
 import type { AnimatePresenceProps } from "@/components/animate-presence/types";
-// import { createContext } from "@/utils";
 
 export const doneCallbacks = new WeakMap<Element, (v?: any, safeUnmount?: boolean) => void>();
 
@@ -25,17 +24,6 @@ export function useAnimatePresence(props: AnimatePresenceProps) {
     custom: props.custom,
     initial: props.initial,
   };
-  watch(
-    () => props.custom,
-    (v) => {
-      presenceContext.custom = v;
-    },
-    {
-      flush: "pre",
-    },
-  );
-
-  // provideAnimatePresence(presenceContext);
 
   onMount(() => {
     presenceContext.initial = undefined;

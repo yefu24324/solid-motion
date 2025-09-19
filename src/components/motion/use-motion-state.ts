@@ -1,4 +1,5 @@
-import { onCleanup, splitProps, useContext } from "solid-js";
+import type { DOMKeyframesDefinition } from "framer-motion";
+import { createEffect, onCleanup, splitProps, useContext } from "solid-js";
 
 import { LayoutGroupContext } from "@/components/context/layout-group-context";
 import { useMotionConfig } from "@/components/context/motion-config";
@@ -7,6 +8,7 @@ import type { MotionProps } from "@/components/motion/types";
 import type { Feature } from "@/features";
 import { domMax } from "@/features/dom-max";
 import { MotionState } from "@/state";
+import { convertSvgStyleToAttributes, createStyles } from "@/state/style";
 import type { Options } from "@/types";
 
 const list: Array<{ state: MotionState; getMotionOptions: () => Options }> = [];
@@ -39,6 +41,43 @@ export function useMotionState(props: MotionProps) {
     return props.layoutId || undefined;
   }
 
+  function getAttrs() {
+    const isSVG = state.type === "svg";
+    let styleProps: Record<string, any> = {
+      ...props.style,
+      ...(isSVG ? {} : state.visualElement?.latestValues || state.baseTarget),
+    };
+    if (isSVG) {
+      const { attrs, style } = convertSvgStyleToAttributes({
+        ...(state.isMounted() ? state.target : state.baseTarget),
+        ...styleProps,
+      } as DOMKeyframesDefinition);
+      if (style.transform || attrs.transformOrigin) {
+        style.transformOrigin = attrs.transformOrigin ?? "50% 50%";
+        delete attrs.transformOrigin;
+      }
+      // If the transformBox is not set, set it to fill-box
+      if (style.transform) {
+        style.transformBox = style.transformBox ?? "fill-box";
+        delete attrs.transformBox;
+      }
+      styleProps = style;
+    }
+    if (props.drag && props.dragListener !== false) {
+      Object.assign(styleProps, {
+        touchAction: props.drag === true ? "none" : `pan-${props.drag === "x" ? "y" : "x"}`,
+        userSelect: "none",
+        WebkitTouchCallout: "none",
+        WebkitUserSelect: "none",
+      });
+    }
+
+    const style = createStyles(styleProps);
+    return {
+      style,
+    };
+  }
+
   function getMotionOptions(): Options & { features?: Array<typeof Feature> } {
     return {
       animate: props.animate,
@@ -69,8 +108,13 @@ export function useMotionState(props: MotionProps) {
   onCleanup(() => {
     list.splice(list.indexOf(dispatch), 1);
   });
+  createEffect(() => {
+    console.log("update", getMotionOptions());
+    state.update(getMotionOptions());
+  });
 
   return {
+    getAttrs,
     getMotionOptions,
     state,
   };
