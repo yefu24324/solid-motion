@@ -12,6 +12,7 @@ import { createVisualElement } from "@/state/create-visual-element";
 import { motionEvent } from "@/state/event";
 import { style } from "@/state/style";
 import { hasChanged, resolveVariant } from "@/state/utils";
+import { calcChildStagger } from "./calc-child-stagger";
 
 const STATE_TYPES = ["initial", "animate", "whileInView", "whileHover", "whilePress", "whileDrag", "whileFocus", "exit"] as const;
 export type StateType = (typeof STATE_TYPES)[number];
@@ -168,7 +169,6 @@ export class AnimationFeature extends Feature {
 
   createAnimationFactories(prevTarget: Record<string, any>, animationOptions: $Transition, controlDelay: number) {
     const factories: AnimationFactory[] = [];
-    console.log("this.state.target", this.state.target);
     Object.keys(this.state.target).forEach((key: any) => {
       if (!hasChanged(prevTarget[key], this.state.target[key])) return;
       this.state.baseTarget[key] ??= style.get(this.state.element, key) as string;

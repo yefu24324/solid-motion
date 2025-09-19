@@ -6,7 +6,16 @@
     "jsxImportSource": "solid-js",
     "paths": {
       "@/*": ["./src/*"],
-      "solid-motion": ["./src/index.tsx"]
+      "solid-motion": ["./src/index.tsx"],
+      "framer-motion/dist/es/utils/reduced-motion/state.mjs": ["./node_modules/framer-motion/dist/es/utils/reduced-motion/state.mjs"],
+      "framer-motion/dist/es/render/html/HTMLVisualElement.mjs": ["./node_modules/framer-motion/dist/es/render/html/HTMLVisualElement.mjs"],
+      "framer-motion/dist/es/render/svg/SVGVisualElement.mjs": ["./node_modules/framer-motion/dist/es/render/svg/SVGVisualElement.mjs"],
+      "framer-motion/dist/es/projection/node/state.mjs": ["./node_modules/framer-motion/dist/es/projection/node/state.mjs"],
+      "framer-motion/dist/es/projection/styles/scale-correction.mjs": ["./node_modules/framer-motion/dist/es/projection/styles/scale-correction.mjs"],
+      "framer-motion/dist/es/projection/styles/scale-border-radius.mjs": ["./node_modules/framer-motion/dist/es/projection/styles/scale-border-radius.mjs"],
+      "framer-motion/dist/es/projection/styles/scale-box-shadow.mjs": ["./node_modules/framer-motion/dist/es/projection/styles/scale-box-shadow.mjs"],
+      "framer-motion/dist/es/projection/node/HTMLProjectionNode.mjs": ["./node_modules/framer-motion/dist/es/projection/node/HTMLProjectionNode.mjs"],
+      "framer-motion/dist/es/render/store.mjs": ["./node_modules/framer-motion/dist/es/render/store.mjs"]
     }
   },
   "include": ["src", "example"],
