@@ -26,7 +26,7 @@ export class MotionState {
   // Parent reference for handling component tree relationships
   public parent?: MotionState;
   public options: Options & {
-    features?: Feature[];
+    features?: Array<typeof Feature>;
   };
   public context: IMotionContext;
 
@@ -58,7 +58,7 @@ export class MotionState {
   // Visual element instance from Framer Motion
   public visualElement: VisualElement<Element>;
 
-  constructor(options: Options, context: IMotionContext) {
+  constructor(options: Options<HTMLElement | SVGElement>, context: IMotionContext) {
     this.id = `motion-state-${id++}`;
     this.options = options;
     this.parent = context.state;
@@ -106,6 +106,7 @@ export class MotionState {
   // Mount motion state to DOM element, handles parent-child relationships
   mount(element: HTMLElement | SVGElement, options: Options, notAnimate = false) {
     this.element = element;
+    this.options = options;
 
     // Mount features in parent-to-child order
     this.featureManager.mount();

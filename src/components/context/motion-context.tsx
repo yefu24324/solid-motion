@@ -25,15 +25,5 @@ export function MotionContextProvider(props: MotionContextProviderProps) {
   const [_, rest] = splitProps(props, ["children"]);
   const merge = mergeProps(parent, rest);
 
-  return (
-    <MotionContext.Provider value={merge}>
-      <Render />
-      {props.children}
-    </MotionContext.Provider>
-  );
-}
-
-function Render() {
-  console.log("rerender");
-  return <></>;
+  return <MotionContext.Provider value={merge}>{props.children}</MotionContext.Provider>;
 }
