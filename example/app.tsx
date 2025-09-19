@@ -5,6 +5,7 @@ import { MotionEffectImageGridDemo } from "./components/animate-ui/demo/motion-e
 import { MotionHighlightCardsHoverDemo } from "./components/animate-ui/demo/motion-highlight-cards-hover-demo.jsx";
 import { TextLoopDemo } from "./components/motion/text-loop-demo.jsx";
 import { Base } from "./demo/base.jsx";
+import { CollapsibleDemo } from "./demo/collapsible";
 import { AnimationUICursor } from "./demo/demo1.jsx";
 import { SolidMotiononeExample } from "./demo/demo2.jsx";
 import { LayoutDemo } from "./demo/layout-demo";
@@ -15,6 +16,10 @@ export default function App() {
     {
       label: "Base",
       value: "base",
+    },
+    {
+      label: "Collapsible",
+      value: "CollapsibleDemo",
     },
     {
       label: "Layout",
@@ -79,6 +84,9 @@ export default function App() {
         </Show>
         <Show when={tab() === "MotionHighlightCardsHoverDemo"}>
           <MotionHighlightCardsHoverDemo />
+        </Show>
+        <Show when={tab() === "CollapsibleDemo"}>
+          <CollapsibleDemo />
         </Show>
       </div>
     </main>

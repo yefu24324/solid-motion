@@ -10,17 +10,21 @@ import { useMotionState } from "./use-motion-state";
 
 export function Motion<T extends ValidComponent = "div">(props: MotionProps<T>) {
   const mergedProps = mergeProps({ as: "div" }, props as Options<HTMLElement | SVGElement>);
-  const [local, rest] = splitProps(mergedProps, ["ref", "as"]);
+  const [local, rest] = splitProps(mergedProps, ["ref", "as", "style"]);
 
-  const { state, getMotionOptions } = useMotionState(mergedProps as MotionProps);
+  const { state, getMotionOptions, getAttrs } = useMotionState(mergedProps as MotionProps);
 
   return (
     <MotionContextProvider animate={props.animate} initial={props.initial}>
       <Dynamic
         component={local.as || "div"}
-        ref={mergeRefs(local.ref, (el) => {
-          state.mount(el, getMotionOptions(), false);
+        ref={mergeRefs(local.ref, (element) => {
+          state.mount(element, getMotionOptions(), false);
         })}
+        style={{
+          ...getAttrs().style,
+          ...local.style,
+        }}
         {...rest}
       />
     </MotionContextProvider>
