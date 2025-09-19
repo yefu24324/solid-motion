@@ -1,29 +1,28 @@
-import { createEffect, createSignal, onMount, splitProps } from "solid-js";
+import { mergeRefs } from "@solid-primitives/refs";
+import type { ValidComponent } from "solid-js";
+import { mergeProps, splitProps } from "solid-js";
 import { Dynamic } from "solid-js/web";
 
 import { MotionContextProvider } from "@/components/context/motion-context";
+import type { Options } from "@/types";
 import type { MotionProps } from "./types";
 import { useMotionState } from "./use-motion-state";
 
-export function Motion(props: MotionProps) {
-  const [local, rest] = splitProps(props, ["as"]);
+export function Motion<T extends ValidComponent = "div">(props: MotionProps<T>) {
+  const mergedProps = mergeProps({ as: "div" }, props as Options<HTMLElement | SVGElement>);
+  const [local, rest] = splitProps(mergedProps, ["ref", "as"]);
 
-  const { state } = useMotionState(props);
-  const [el, setEl] = createSignal<HTMLDivElement | null>(null);
-  onMount(() => {
-    const element = el();
-    if (!element) {
-      throw new Error("Motion element is not mounted");
-    }
-    state.mount(element, props, false);
-  });
-  createEffect(() => {
-    props.ref?.(el());
-  });
+  const { state, getMotionOptions } = useMotionState(mergedProps as MotionProps);
 
   return (
     <MotionContextProvider animate={props.animate} initial={props.initial}>
-      <Dynamic component={local.as || "div"} {...rest} ref={setEl} />
+      <Dynamic
+        component={local.as || "div"}
+        ref={mergeRefs(local.ref, (el) => {
+          state.mount(el, getMotionOptions(), false);
+        })}
+        {...rest}
+      />
     </MotionContextProvider>
   );
 }

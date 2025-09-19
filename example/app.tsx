@@ -64,7 +64,6 @@ export default function App() {
         </Show>
         <Show when={tab() === "LayoutDemo"}>
           <LayoutDemo />
-          asd
         </Show>
         <Show when={tab() === "AnimationUICursor"}>
           <AnimationUICursor />
