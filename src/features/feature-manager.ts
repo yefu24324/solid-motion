@@ -5,7 +5,7 @@ export class FeatureManager {
   features: Feature[] = [];
   constructor(state: MotionState) {
     const { features = [] } = state.options;
-    this.features = features.map((Feature: any) => new Feature(state));
+    this.features = features.map((Feature) => new Feature(state));
   }
 
   mount() {

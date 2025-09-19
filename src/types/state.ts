@@ -1,5 +1,6 @@
 import type { DOMKeyframesDefinition, ResolvedValues, VariantLabels } from "framer-motion";
 import type { animate, MotionValue, TransformProperties } from "framer-motion/dom";
+import type { Ref, ValidComponent } from "solid-js";
 
 import type { AnimationControls } from "@/animation/types";
 import type { LayoutGroupState } from "@/components/context";
@@ -11,7 +12,6 @@ import type { InViewProps } from "@/features/gestures/in-view/types";
 import type { PanProps } from "@/features/gestures/pan/types";
 import type { PressProps } from "@/features/gestures/press/types";
 import type { LayoutOptions } from "@/features/layout/types";
-import type { AsTag } from "@/types/common";
 import type { $Transition } from "./framer-motion";
 
 type AnimationPlaybackControls = ReturnType<typeof animate>;
@@ -38,9 +38,17 @@ export type MotionStyle = Partial<{
   [K in keyof Omit<VariantType & TransformPropertiesWithoutTransition, "attrX" | "attrY" | "attrScale">]: string | number | undefined | MotionValue;
 }>;
 
-export interface Options<T = any> extends LayoutOptions, PressProps, HoverProps, InViewProps, DragProps, PanProps, FocusProps {
+export interface Options<T extends HTMLElement | SVGElement = HTMLElement | SVGElement>
+  extends LayoutOptions,
+    PressProps,
+    HoverProps,
+    InViewProps,
+    DragProps,
+    PanProps,
+    FocusProps {
+  as?: ValidComponent;
+  ref?: Ref<T>;
   custom?: T;
-  as?: AsTag;
   initial?: VariantLabels | VariantType | boolean;
   animate?: VariantLabels | VariantType | AnimationControls;
   exit?: VariantLabels | VariantType;

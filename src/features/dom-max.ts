@@ -9,7 +9,7 @@ import { LayoutFeature } from "@/features/layout/layout";
 // import { FocusGesture } from '@/features/gestures/focus'
 import { ProjectionFeature } from "@/features/layout/projection";
 
-export const domMax = [
+export const domMax: Array<typeof Feature> = [
   AnimationFeature,
   // PressGesture,
   // HoverGesture,
@@ -19,4 +19,4 @@ export const domMax = [
   // PanGesture,
   // DragGesture,
   LayoutFeature,
-] as unknown as Feature[];
+];

@@ -1,14 +1,6 @@
-import type { Component, JSX } from "solid-js";
+import type { ValidComponent } from "solid-js";
 
-import type { AsTag, Options } from "@/types";
+import type { ElementOf, PolymorphicProps } from "@/components/polymorphic";
+import type { Options } from "@/types";
 
-export interface MotionProps<T extends AsTag = "div", K = unknown> extends Omit<Options<K>, "motionConfig" | "layoutGroup"> {
-  as?: T;
-  forwardMotionProps?: boolean;
-  ignoreStrict?: boolean;
-
-  class?: string;
-  children: JSX.Element;
-}
-
-export type MotionComponent = Component<MotionProps>;
+export type MotionProps<T extends ValidComponent = "div"> = PolymorphicProps<T, Options<ElementOf<T>>>;
