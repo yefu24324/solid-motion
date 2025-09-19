@@ -24,5 +24,20 @@ export default tsup.defineConfig((config) => {
     preset.writePackageJson(package_fields);
   }
 
-  return preset.generateTsupOptions(parsed_data);
+  const configs = preset.generateTsupOptions(parsed_data);
+  for (const config of configs) {
+    config.noExternal = [
+      "framer-motion",
+      "framer-motion/dist/es/render/store.mjs",
+      "framer-motion/dist/es/render/html/HTMLVisualElement.mjs",
+      "framer-motion/dist/es/render/svg/SVGVisualElement.mjs",
+      "framer-motion/dist/es/projection/node/state.mjs",
+      "framer-motion/dist/es/projection/styles/scale-correction.mjs",
+      "framer-motion/dist/es/projection/styles/scale-border-radius.mjs",
+      "framer-motion/dist/es/projection/styles/scale-box-shadow.mjs",
+      "framer-motion/dist/es/projection/node/HTMLProjectionNode.mjs",
+      "framer-motion/dist/es/utils/reduced-motion/state.mjs",
+    ];
+  }
+  return configs;
 });

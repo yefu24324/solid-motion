@@ -1,4 +1,4 @@
-import { useContext } from "solid-js";
+import { onCleanup, splitProps, useContext } from "solid-js";
 
 import { LayoutGroupContext } from "@/components/context/layout-group-context";
 import { useMotionConfig } from "@/components/context/motion-config";
@@ -9,13 +9,14 @@ import { MotionState } from "@/state";
 import type { Options } from "@/types";
 
 const list: Array<{ state: MotionState; getMotionProps: () => Options }> = [];
-export function beforeUpdate(callback: VoidFunction) {
+export function animateView(callback: VoidFunction) {
   list.forEach((instance) => instance.state.beforeUpdate());
   callback();
   list.forEach((instance) => instance.state.update(instance.getMotionProps()));
 }
 
 export function useMotionState(props: MotionProps) {
+  const [_, rest] = splitProps(props, ["children"]);
   // layout group context
   const layoutGroup = useContext(LayoutGroupContext);
   // motion config context
@@ -37,7 +38,7 @@ export function useMotionState(props: MotionProps) {
 
   function getProps() {
     return {
-      ...props,
+      ...rest,
       features: domMax,
       initial: props.initial === true ? undefined : props.initial,
       layoutId: getLayoutId(),
@@ -53,8 +54,14 @@ export function useMotionState(props: MotionProps) {
   }
 
   const state = new MotionState(getMotionProps(), context);
-  list.push({ getMotionProps, state });
+  const a = { getMotionProps, state };
+  list.push(a);
+  console.log("list", list);
   state.beforeMount();
+
+  onCleanup(() => {
+    list.splice(list.indexOf(a), 1);
+  });
 
   return {
     state,
