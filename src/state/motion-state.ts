@@ -1,12 +1,13 @@
 import type { DOMKeyframesDefinition, VisualElement } from "framer-motion";
 import { cancelFrame, frame, noop } from "framer-motion/dom";
 
+import type { PresenceContext } from "@/components/context/animate-presence-context";
 import type { IMotionContext } from "@/components/context/motion-context";
 import type { Feature, StateType } from "@/features";
 import { FeatureManager } from "@/features";
 import type { AnimateUpdates } from "@/features/animation/types";
 import { isSVGElement, resolveVariant } from "@/state/utils";
-import type { Options } from "@/types";
+import type { $Transition, Options } from "@/types";
 
 // Map to track mounted motion states by element
 export const mountedStates = new WeakMap<Element, MotionState>();
@@ -26,6 +27,7 @@ export class MotionState {
   // Parent reference for handling component tree relationships
   public parent?: MotionState;
   public options: Options & {
+    animatePresenceContext?: PresenceContext;
     features?: Array<typeof Feature>;
   };
   public context: IMotionContext;
@@ -52,11 +54,14 @@ export class MotionState {
 
   // Current animation target values
   public target: DOMKeyframesDefinition;
-
+  /**
+   * The final transition to be applied to the state
+   */
+  public finalTransition: $Transition;
   private featureManager: FeatureManager;
 
   // Visual element instance from Framer Motion
-  public visualElement: VisualElement<Element>;
+  public visualElement!: VisualElement<Element>;
 
   constructor(options: Options<HTMLElement | SVGElement>, context: IMotionContext) {
     this.id = `motion-state-${id++}`;
@@ -67,13 +72,6 @@ export class MotionState {
     // Initialize with either initial or animate variant
     const initial = options.initial === undefined && options.variants ? this.context.initial : options.initial;
     const initialVariantSource = initial === false ? ["initial", "animate"] : ["initial"];
-    this.initTarget(initialVariantSource);
-    this.featureManager = new FeatureManager(this);
-    this.type = isSVGElement(this.options.as as any) ? "svg" : "html";
-  }
-
-  // Initialize animation target values
-  private initTarget(initialVariantSource: string[]) {
     const custom = this.options.custom ?? this.options.animatePresenceContext?.custom;
     this.baseTarget = initialVariantSource.reduce((acc, variant) => {
       return {
@@ -82,6 +80,8 @@ export class MotionState {
       };
     }, {});
     this.target = {};
+    this.featureManager = new FeatureManager(this);
+    this.type = isSVGElement(this.options.as as any) ? "svg" : "html";
   }
 
   // Update visual element with new options

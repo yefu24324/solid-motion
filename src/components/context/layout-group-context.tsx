@@ -7,11 +7,11 @@ export interface NodeGroup {
   dirty: VoidFunction;
 }
 
-export interface LayoutGroupContextProps {
+export interface LayoutGroupState {
   id?: string;
   group?: NodeGroup;
   forceRender?: VoidFunction;
   key?: Accessor<number>;
 }
 
-export const LayoutGroupContext = createContext<LayoutGroupContextProps>({});
+export const LayoutGroupContext = createContext<LayoutGroupState>({});
