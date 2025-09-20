@@ -1,11 +1,11 @@
 import type { DOMKeyframesDefinition } from "framer-motion";
 import { createEffect, onCleanup, splitProps, useContext } from "solid-js";
 
+import { AnimatePresenceContext } from "@/components/context/animate-presence-context";
 import { LayoutGroupContext } from "@/components/context/layout-group-context";
 import { useMotionConfig } from "@/components/context/motion-config";
 import { MotionContext } from "@/components/context/motion-context";
 import type { MotionProps } from "@/components/motion/types";
-import type { Feature } from "@/features";
 import { domMax } from "@/features/dom-max";
 import { MotionState } from "@/state";
 import { convertSvgStyleToAttributes, createStyles } from "@/state/style";
@@ -26,6 +26,8 @@ export function useMotionState(props: MotionProps) {
   const layoutGroup = useContext(LayoutGroupContext);
   // motion config context
   const config = useMotionConfig();
+  // animate presence context
+  const animatePresenceContext = useContext(AnimatePresenceContext);
 
   const context = useContext(MotionContext);
 
@@ -52,14 +54,14 @@ export function useMotionState(props: MotionProps) {
         ...(state.isMounted() ? state.target : state.baseTarget),
         ...styleProps,
       } as DOMKeyframesDefinition);
-      if (style.transform || attrs.transformOrigin) {
-        style.transformOrigin = attrs.transformOrigin ?? "50% 50%";
-        delete attrs.transformOrigin;
+      if (style["transform"] || attrs["transformOrigin"]) {
+        style["transformOrigin"] = attrs["transformOrigin"] ?? "50% 50%";
+        delete attrs["transformOrigin"];
       }
       // If the transformBox is not set, set it to fill-box
-      if (style.transform) {
-        style.transformBox = style.transformBox ?? "fill-box";
-        delete attrs.transformBox;
+      if (style["transform"]) {
+        style["transformBox"] = style["transformBox"] ?? "fill-box";
+        delete attrs["transformBox"];
       }
       styleProps = style;
     }
@@ -78,9 +80,10 @@ export function useMotionState(props: MotionProps) {
     };
   }
 
-  function getMotionOptions(): Options & { features?: Array<typeof Feature> } {
+  function getMotionOptions(): MotionState["options"] {
     return {
       animate: props.animate,
+      animatePresenceContext: animatePresenceContext,
       as: props.as,
       exit: props.exit,
       features: domMax,

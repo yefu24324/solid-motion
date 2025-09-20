@@ -1,4 +1,5 @@
 import { isEmpty } from "es-toolkit/compat";
+import type { VisualElement } from "framer-motion";
 import { visualElementStore } from "framer-motion/dist/es/render/store.mjs";
 import { prefersReducedMotion } from "framer-motion/dist/es/utils/reduced-motion/state.mjs";
 import { animate, noop } from "framer-motion/dom";
@@ -11,7 +12,9 @@ import { mountedStates } from "@/state";
 import { createVisualElement } from "@/state/create-visual-element";
 import { motionEvent } from "@/state/event";
 import { style } from "@/state/style";
+import { transformResetValue } from "@/state/transform";
 import { hasChanged, resolveVariant } from "@/state/utils";
+import type { $Transition, AnimationFactory, Options, VariantType } from "@/types";
 import { calcChildStagger } from "./calc-child-stagger";
 
 const STATE_TYPES = ["initial", "animate", "whileInView", "whileHover", "whilePress", "whileDrag", "whileFocus", "exit"] as const;
@@ -172,7 +175,7 @@ export class AnimationFeature extends Feature {
     Object.keys(this.state.target).forEach((key: any) => {
       if (!hasChanged(prevTarget[key], this.state.target[key])) return;
       this.state.baseTarget[key] ??= style.get(this.state.element, key) as string;
-      const keyValue = this.state.target[key] === "none" && isDef(transformResetValue[key]) ? transformResetValue[key] : this.state.target[key];
+      const keyValue = this.state.target[key] === "none" && !isEmpty(transformResetValue[key]) ? transformResetValue[key] : this.state.target[key];
       console.log("key", key, keyValue);
       factories.push(() =>
         animate(this.state.element, { [key]: keyValue }, {
