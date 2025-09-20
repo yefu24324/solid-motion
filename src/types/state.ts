@@ -3,7 +3,7 @@ import type { animate, MotionValue, TransformProperties } from "framer-motion/do
 import type { Ref, ValidComponent } from "solid-js";
 
 import type { AnimationControls } from "@/animation/types";
-import type { LayoutGroupState } from "@/components/context";
+import type { LayoutGroupState } from "@/components/context/layout-group-context";
 import type { MotionConfigState } from "@/components/context/motion-config/types";
 import type { DragProps } from "@/features/gestures/drag/types";
 import type { FocusProps } from "@/features/gestures/focus/types";

@@ -1,4 +1,4 @@
-import { createContext, type JSX, onMount } from "solid-js";
+import { createContext, type JSX } from "solid-js";
 
 import type { AnimatePresenceProps } from "../animate-presence/types";
 
@@ -20,15 +20,4 @@ export function AnimatePresenceContextProvider(props: AnimatePresenceProps & { c
       {props.children}
     </AnimatePresenceContext.Provider>
   );
-}
-
-export function useAnimatePresence(props: AnimatePresenceProps) {
-  const presenceContext = {
-    custom: props.custom,
-    initial: props.initial,
-  };
-
-  onMount(() => {
-    presenceContext.initial = undefined;
-  });
 }
