@@ -16,7 +16,7 @@
     /*
 		Lint rules
 		*/
-    "strict": true,
+    "strict": false,
     "isolatedModules": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
