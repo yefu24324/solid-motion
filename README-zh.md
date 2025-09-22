@@ -78,5 +78,5 @@ createEffect(() => {
 
 特别感谢以下项目的灵感和参考：
 
-- [motion-svelte](https://github.com/epavanello/motion-svelte) - Svelte的Motion动画库实现
-- [solid-motionone](https://github.com/solidjs-community/solid-motionone) - SolidJS社区的Motion One实现
+- [motion-vue](https://github.com/motiondivision/motion-vue) - [solid-motion](.) 项目是基于Motion Vue项目重写的Solid Motion
+- [solid-motionone](https://github.com/solidjs-community/solid-motionone) - 参考了其项目结构与Presence节点的实现

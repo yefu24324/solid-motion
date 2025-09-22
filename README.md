@@ -79,5 +79,5 @@ createEffect(() => {
 
 Special thanks to the following projects for inspiration and reference:
 
-- [motion-svelte](https://github.com/epavanello/motion-svelte) - Motion animation library implementation for Svelte
-- [solid-motionone](https://github.com/solidjs-community/solid-motionone) - Motion One implementation for SolidJS community
+- [motion-vue](https://github.com/motiondivision/motion-vue) - [solid-motion](.) project is a rewrite of Solid Motion based on Motion Vue
+- [solid-motionone](https://github.com/solidjs-community/solid-motionone) - Referenced the project structure and the implementation of the Presence node
