@@ -1,5 +1,5 @@
-import type { MotionState } from '@/state'
-import type { Options } from '@/types'
+import type { MotionState } from "@/state";
+import type { Options } from "@/types";
 /**
  * @public
  */
@@ -12,7 +12,7 @@ export interface AnimationControls {
    *
    * @internal
    */
-  subscribe: (state: MotionState) => () => void
+  subscribe: (state: MotionState) => () => void;
 
   /**
    * Starts an animation on all linked components.
@@ -33,10 +33,7 @@ export interface AnimationControls {
    *
    * @public
    */
-  start: (
-    definition: Options['animate'],
-    transitionOverride?: Options['transition']
-  ) => Promise<any>
+  start: (definition: Options["animate"], transitionOverride?: Options["transition"]) => Promise<any>;
 
   /**
    * Instantly set to a set of properties or a variant.
@@ -58,7 +55,7 @@ export interface AnimationControls {
    *
    * @public
    */
-  set: (definition: Options['animate']) => void
+  set: (definition: Options["animate"]) => void;
 
   /**
    * Stops animations on all linked components.
@@ -69,6 +66,6 @@ export interface AnimationControls {
    *
    * @public
    */
-  stop: () => void
-  mount: () => () => void
+  stop: () => void;
+  mount: () => () => void;
 }

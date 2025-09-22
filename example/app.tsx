@@ -9,6 +9,7 @@ import { CollapsibleDemo } from "./demo/collapsible";
 import { AnimationUICursor } from "./demo/demo1.jsx";
 import { SolidMotiononeExample } from "./demo/demo2.jsx";
 import { LayoutDemo } from "./demo/layout-demo";
+import { PresenceDemo } from "./demo/presence";
 
 export default function App() {
   const [tab, setTab] = createSignal("Base");
@@ -16,6 +17,10 @@ export default function App() {
     {
       label: "Base",
       value: "base",
+    },
+    {
+      label: "Presence",
+      value: "PresenceDemo",
     },
     {
       label: "Collapsible",
@@ -66,6 +71,9 @@ export default function App() {
       <div class="m-auto flex h-full max-w-lg select-none flex-col justify-center gap-8 text-black" id="demo">
         <Show when={tab() === "base"}>
           <Base />
+        </Show>
+        <Show when={tab() === "PresenceDemo"}>
+          <PresenceDemo />
         </Show>
         <Show when={tab() === "LayoutDemo"}>
           <LayoutDemo />

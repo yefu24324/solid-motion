@@ -29,6 +29,12 @@
       "suspicious": {
         "noExplicitAny": "error",
         "useAwait": "error"
+      },
+      "complexity": {
+        "useLiteralKeys": {
+          "level": "error",
+          "fix": "safe"
+        }
       }
     }
   },

@@ -1,7 +1,4 @@
-import type {
-  DragControlOptions,
-  VisualElementDragControls,
-} from './VisualElementDragControls'
+import type { DragControlOptions, VisualElementDragControls } from "./VisualElementDragControls";
 
 /**
  * Can manually trigger a drag gesture on one or more `drag`-enabled `motion` components.
@@ -24,7 +21,7 @@ import type {
  * @public
  */
 export class DragControls {
-  private componentControls = new Set<VisualElementDragControls>()
+  private componentControls = new Set<VisualElementDragControls>();
 
   /**
    * Subscribe a component's internal `VisualElementDragControls` to the user-facing API.
@@ -32,9 +29,9 @@ export class DragControls {
    * @internal
    */
   subscribe(controls: VisualElementDragControls): () => void {
-    this.componentControls.add(controls)
+    this.componentControls.add(controls);
 
-    return () => this.componentControls.delete(controls)
+    return () => this.componentControls.delete(controls);
   }
 
   /**
@@ -52,20 +49,14 @@ export class DragControls {
    *
    * @public
    */
-  start(
-    event: PointerEvent,
-    options?: DragControlOptions,
-  ) {
+  start(event: PointerEvent, options?: DragControlOptions) {
     this.componentControls.forEach((controls) => {
-      controls.start(
-        event,
-        options,
-      )
-    })
+      controls.start(event, options);
+    });
   }
 }
 
-const createDragControls = () => new DragControls()
+const createDragControls = () => new DragControls();
 
 /**
  * Usually, dragging is initiated by pressing down on a `motion` component with a `drag` prop
@@ -93,4 +84,4 @@ const createDragControls = () => new DragControls()
  *
  * @public
  */
-export const useDragControls = createDragControls
+export const useDragControls = createDragControls;

@@ -176,7 +176,6 @@ export class AnimationFeature extends Feature {
       if (!hasChanged(prevTarget[key], this.state.target[key])) return;
       this.state.baseTarget[key] ??= style.get(this.state.element, key) as string;
       const keyValue = this.state.target[key] === "none" && !isEmpty(transformResetValue[key]) ? transformResetValue[key] : this.state.target[key];
-      console.log("key", key, keyValue);
       factories.push(() =>
         animate(this.state.element, { [key]: keyValue }, {
           ...(animationOptions?.[key] || animationOptions),

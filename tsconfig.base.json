@@ -22,7 +22,6 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "noPropertyAccessFromIndexSignature": true,
     "noUncheckedIndexedAccess": true
   },
   "exclude": ["node_modules", "dist"]

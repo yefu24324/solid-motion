@@ -1,5 +1,5 @@
-import { animationControls } from '@/animation/hooks/animation-controls'
-import { onMounted, onUnmounted } from 'vue'
+import { animationControls } from "@/animation/hooks/animation-controls";
+import { onMounted, onUnmounted } from "vue";
 
 /**
  * Creates `AnimationControls`, which can be used to manually start, stop
@@ -34,13 +34,13 @@ import { onMounted, onUnmounted } from 'vue'
  * @public
  */
 export function useAnimationControls() {
-  const controls = animationControls()
-  let unmount: () => void
+  const controls = animationControls();
+  let unmount: () => void;
   onMounted(() => {
-    unmount = controls.mount()
-  })
+    unmount = controls.mount();
+  });
   onUnmounted(() => {
-    unmount()
-  })
-  return controls
+    unmount();
+  });
+  return controls;
 }

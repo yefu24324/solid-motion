@@ -112,7 +112,6 @@ export function useMotionState(props: MotionProps) {
     list.splice(list.indexOf(dispatch), 1);
   });
   createEffect(() => {
-    console.log("update", getMotionOptions());
     state.update(getMotionOptions());
   });
 

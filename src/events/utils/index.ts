@@ -1,1 +1,1 @@
-export * from './is-primary-pointer'
+export * from "./is-primary-pointer";

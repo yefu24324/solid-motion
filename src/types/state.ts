@@ -1,6 +1,17 @@
-import type { DOMKeyframesDefinition, ResolvedValues, VariantLabels } from "framer-motion";
-import type { animate, MotionValue, TransformProperties } from "framer-motion/dom";
-import type { Ref, ValidComponent } from "solid-js";
+import type { ResolvedValues, VariantLabels } from "framer-motion";
+// import type { DOMKeyframesDefinition } from "framer-motion";
+import type {
+  AnyResolvedKeyframe,
+  animate,
+  MotionValue,
+  SVGForcedAttrKeyframesDefinition,
+  SVGKeyframesDefinition,
+  SVGPathKeyframesDefinition,
+  TransformProperties,
+  ValueKeyframesDefinition,
+  VariableKeyframesDefinition,
+} from "framer-motion/dom";
+import type { JSX, Ref, ValidComponent } from "solid-js";
 
 import type { AnimationControls } from "@/animation/types";
 import type { LayoutGroupState } from "@/components/context/layout-group-context";
@@ -15,6 +26,40 @@ import type { LayoutOptions } from "@/features/layout/types";
 import type { $Transition } from "./framer-motion";
 
 type AnimationPlaybackControls = ReturnType<typeof animate>;
+
+type CSSPropertyKeys = {
+  [K in keyof JSX.CSSProperties as K extends string ? (JSX.CSSProperties[K] extends AnyResolvedKeyframe ? K : never) : never]: JSX.CSSProperties[K];
+};
+
+interface CSSStyleDeclarationWithTransform extends Omit<CSSPropertyKeys, "direction" | "transition" | "x" | "y" | "z"> {
+  x: number | string;
+  y: number | string;
+  z: number | string;
+  originX: number;
+  originY: number;
+  originZ: number;
+  translateX: number | string;
+  translateY: number | string;
+  translateZ: number | string;
+  rotateX: number | string;
+  rotateY: number | string;
+  rotateZ: number | string;
+  scaleX: number;
+  scaleY: number;
+  scaleZ: number;
+  skewX: number | string;
+  skewY: number | string;
+  transformPerspective: number;
+}
+type StyleKeyframesDefinition = {
+  [K in keyof CSSStyleDeclarationWithTransform]?: ValueKeyframesDefinition;
+};
+type DOMKeyframesDefinition = StyleKeyframesDefinition &
+  SVGKeyframesDefinition &
+  SVGPathKeyframesDefinition &
+  SVGForcedAttrKeyframesDefinition &
+  VariableKeyframesDefinition;
+
 export interface VariantType extends DOMKeyframesDefinition {
   transition?: Options["transition"];
   attrX?: DOMKeyframesDefinition["x"];

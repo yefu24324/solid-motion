@@ -1,11 +1,11 @@
-import type { DragControls } from '@/features/gestures/drag/use-drag-controls'
-import type { VariantType } from '@/types'
-import type { Axis, BoundingBox, DragElastic, InertiaOptions, PanInfo } from 'framer-motion'
-import type { VariantLabels } from 'motion-dom'
+import type { DragControls } from "@/features/gestures/drag/use-drag-controls";
+import type { VariantType } from "@/types";
+import type { Axis, BoundingBox, DragElastic, InertiaOptions, PanInfo } from "framer-motion";
+import type { VariantLabels } from "motion-dom";
 
 export interface ResolvedConstraints {
-  x: Partial<Axis>
-  y: Partial<Axis>
+  x: Partial<Axis>;
+  y: Partial<Axis>;
 }
 
 /**
@@ -26,10 +26,7 @@ export interface DragHandlers {
    *
    * @public
    */
-  onDragStart?: (
-    event: PointerEvent,
-    info: PanInfo
-  ) => void
+  onDragStart?: (event: PointerEvent, info: PanInfo) => void;
 
   /**
    * Callback function that fires when dragging ends.
@@ -45,10 +42,7 @@ export interface DragHandlers {
    *
    * @public
    */
-  onDragEnd?: (
-    event: PointerEvent,
-    info: PanInfo
-  ) => void
+  onDragEnd?: (event: PointerEvent, info: PanInfo) => void;
 
   /**
    * Callback function that fires when the component is dragged.
@@ -64,7 +58,7 @@ export interface DragHandlers {
    *
    * @public
    */
-  onDrag?: (event: PointerEvent, info: PanInfo) => void
+  onDrag?: (event: PointerEvent, info: PanInfo) => void;
 
   /**
    * Callback function that fires a drag direction is determined.
@@ -79,7 +73,7 @@ export interface DragHandlers {
    *
    * @public
    */
-  onDirectionLock?: (axis: 'x' | 'y') => void
+  onDirectionLock?: (axis: "x" | "y") => void;
 
   /**
    * Callback function that fires when drag momentum/bounce transition finishes.
@@ -93,13 +87,13 @@ export interface DragHandlers {
    *
    * @public
    */
-  onDragTransitionEnd?: () => void
+  onDragTransitionEnd?: () => void;
   /**
    * If `dragConstraints` is set to a HTMLElement, this callback will call with the measured drag constraints.
    *
    * @public
    */
-  onMeasureDragConstraints?: (constraints: BoundingBox) => BoundingBox | void
+  onMeasureDragConstraints?: (constraints: BoundingBox) => BoundingBox | void;
 }
 
 export interface DragProps extends DragHandlers {
@@ -112,7 +106,7 @@ export interface DragProps extends DragHandlers {
    * <motion.div drag="x" />
    * ```
    */
-  drag?: boolean | 'x' | 'y'
+  drag?: boolean | "x" | "y";
   /**
    * If true, element will snap back to its origin when dragging ends.
    *
@@ -121,7 +115,7 @@ export interface DragProps extends DragHandlers {
    * a wider draggable area and `dragSnapToOrigin` will ensure the element
    * animates back to its origin on release.
    */
-  dragSnapToOrigin?: boolean
+  dragSnapToOrigin?: boolean;
 
   /**
    * If `true`, this will lock dragging to the initially-detected direction. Defaults to `false`.
@@ -130,7 +124,7 @@ export interface DragProps extends DragHandlers {
    * <motion.div drag dragDirectionLock />
    * ```
    */
-  dragDirectionLock?: boolean
+  dragDirectionLock?: boolean;
   /**
    * Allows drag gesture propagation to child components. Set to `false` by
    * default.
@@ -139,8 +133,8 @@ export interface DragProps extends DragHandlers {
    * <motion.div drag="x" dragPropagation />
    * ```
    */
-  dragPropagation?: boolean
-  dragConstraints?: false | Partial<BoundingBox> | HTMLElement
+  dragPropagation?: boolean;
+  dragConstraints?: false | Partial<BoundingBox> | HTMLElement;
   /**
    * The degree of movement allowed outside constraints. 0 = no movement, 1 =
    * full movement.
@@ -158,7 +152,7 @@ export interface DragProps extends DragHandlers {
    * />
    * ```
    */
-  dragElastic?: DragElastic
+  dragElastic?: DragElastic;
   /**
    * Apply momentum from the pan gesture to the component when dragging
    * finishes. Set to `true` by default.
@@ -171,7 +165,7 @@ export interface DragProps extends DragHandlers {
    * />
    * ```
    */
-  dragMomentum?: boolean
+  dragMomentum?: boolean;
   /**
    * Allows you to change dragging inertia parameters.
    * When releasing a draggable Frame, an animation with type `inertia` starts. The animation is based on your dragging velocity. This property allows you to customize it.
@@ -184,7 +178,7 @@ export interface DragProps extends DragHandlers {
    * />
    * ```
    */
-  dragTransition?: InertiaOptions
+  dragTransition?: InertiaOptions;
   /**
    * By default, if `drag` is defined on a component then an event listener will be attached
    * to automatically initiate dragging when a user presses down on it.
@@ -210,7 +204,7 @@ export interface DragProps extends DragHandlers {
    * )
    * ```
    */
-  dragListener?: boolean
+  dragListener?: boolean;
 
   /**
    * Usually, dragging is initiated by pressing down on a component and moving it. For some
@@ -236,6 +230,6 @@ export interface DragProps extends DragHandlers {
    * )
    * ```
    */
-  dragControls?: DragControls
-  whileDrag?: VariantLabels | VariantType
+  dragControls?: DragControls;
+  whileDrag?: VariantLabels | VariantType;
 }

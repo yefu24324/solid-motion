@@ -95,17 +95,24 @@ export function TextLoop(props: TextLoopProps) {
     if (timer) clearInterval(timer);
   });
 
+  // console.log(items());
+
   return (
     <div class={cn("relative inline-block whitespace-nowrap", props.class)}>
-      <AnimatePresence exitBeforeEnter={true}>
+      <AnimatePresence mode="popLayout">
         <For each={items.toArray()}>
           {(child, index) => (
             <Show when={currentIndex() === index()}>
               <Motion
                 animate={props.animate || { opacity: 1, y: 0 }}
-                exit={props.exit || { opacity: 0, position: "absolute", top: 0, y: -20 }}
+                exit={props.exit || { opacity: 0, y: -20 }}
                 initial={props.initial || { opacity: 0, y: 20 }}
                 transition={props.transition || { duration: 0.3 }}
+                variants={{
+                  animate: { opacity: 1, y: 0 },
+                  exit: { opacity: 0, y: -20 },
+                  initial: { opacity: 0, y: 20 },
+                }}
               >
                 {child}
               </Motion>
