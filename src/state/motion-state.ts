@@ -81,7 +81,7 @@ export class MotionState {
     }, {});
     this.target = {};
     this.featureManager = new FeatureManager(this);
-    this.type = isSVGElement(this.options.as as any) ? "svg" : "html";
+    this.type = isSVGElement(this.options.as) ? "svg" : "html";
   }
 
   // Update visual element with new options

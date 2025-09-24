@@ -1,6 +1,7 @@
-import type { MotionState } from "@/state/motion-state";
-import { Feature, extractEventInfo } from "@/features";
 import { frame, hover } from "framer-motion/dom";
+
+import { extractEventInfo, Feature } from "@/features";
+import type { MotionState } from "@/state/motion-state";
 
 function handleHoverEvent(state: MotionState, event: PointerEvent, lifecycle: "Start" | "End") {
   const props = state.options;

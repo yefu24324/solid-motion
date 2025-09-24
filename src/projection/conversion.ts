@@ -7,8 +7,8 @@ import type { BoundingBox, Box, TransformPoint } from "framer-motion";
  */
 export function convertBoundingBoxToBox({ top, left, right, bottom }: BoundingBox): Box {
   return {
-    x: { min: left, max: right },
-    y: { min: top, max: bottom },
+    x: { max: right, min: left },
+    y: { max: bottom, min: top },
   };
 }
 
@@ -23,13 +23,13 @@ export function transformBoxPoints(point: BoundingBox, transformPoint?: Transfor
   const bottomRight = transformPoint({ x: point.right, y: point.bottom });
 
   return {
-    top: topLeft.y,
-    left: topLeft.x,
     bottom: bottomRight.y,
+    left: topLeft.x,
     right: bottomRight.x,
+    top: topLeft.y,
   };
 }
 
 export function convertBoxToBoundingBox({ x, y }: Box): BoundingBox {
-  return { top: y.min, right: x.max, bottom: y.max, left: x.min };
+  return { bottom: y.max, left: x.min, right: x.max, top: y.min };
 }

@@ -1,3 +1,9 @@
+import type { AnimationGeneratorType, Axis, BoundingBox, Point, Transition, VisualElement } from "framer-motion";
+import { animateMotionValue } from "framer-motion/dist/es/animation/interfaces/motion-value.mjs";
+import { frame, mixNumber, percent } from "framer-motion/dom";
+import { invariant } from "hey-listen";
+
+import type { MotionProps } from "@/components";
 import { addDomEvent, addPointerEvent, extractEventInfo } from "@/events";
 import type { Lock } from "@/features/gestures/drag/lock";
 import { getGlobalLock } from "@/features/gestures/drag/lock";
@@ -14,22 +20,17 @@ import {
 import { isHTMLElement } from "@/features/gestures/drag/utils/is";
 import type { PanInfo } from "@/features/gestures/pan/PanSession";
 import { PanSession } from "@/features/gestures/pan/PanSession";
+import { convertBoundingBoxToBox, convertBoxToBoundingBox } from "@/projection/conversion";
 import { calcLength } from "@/projection/geometry/delta-calc";
 import { createBox } from "@/projection/geometry/models";
+import type { LayoutUpdateData } from "@/projection/node/types";
 import { eachAxis } from "@/projection/utils/each-axis";
+import { measurePageBox } from "@/projection/utils/measure";
+import type { MotionState } from "@/state";
+import { isPresent } from "@/state/utils/is-present";
 import type { Options } from "@/types";
 import { getContextWindow } from "@/utils";
 import { addValueToWillChange } from "@/value/use-will-change/add-will-change";
-import type { AnimationGeneratorType, Axis, BoundingBox, Point, Transition, VisualElement } from "framer-motion";
-import { frame, mixNumber, percent } from "framer-motion/dom";
-import { measurePageBox } from "@/projection/utils/measure";
-import { convertBoundingBoxToBox, convertBoxToBoundingBox } from "@/projection/conversion";
-import { animateMotionValue } from "framer-motion/dist/es/animation/interfaces/motion-value.mjs";
-import type { LayoutUpdateData } from "@/projection/node/types";
-import { invariant } from "hey-listen";
-import { isPresent } from "@/state/utils/is-present";
-import type { MotionState } from "@/state";
-import type { MotionProps } from "@/components";
 
 export const elementDragControls = new WeakMap<VisualElement, VisualElementDragControls>();
 
@@ -201,16 +202,16 @@ export class VisualElementDragControls {
     this.panSession = new PanSession(
       originEvent,
       {
-        onSessionStart,
-        onStart,
         onMove,
         onSessionEnd,
+        onSessionStart,
+        onStart,
         resumeAnimation,
       },
       {
-        transformPagePoint: this.visualElement.getTransformPagePoint(),
-        dragSnapToOrigin,
         contextWindow: getContextWindow(this.visualElement),
+        dragSnapToOrigin,
+        transformPagePoint: this.visualElement.getTransformPagePoint(),
       },
     );
   }
@@ -348,7 +349,7 @@ export class VisualElementDragControls {
 
       let transition = (constraints && constraints[axis]) || {};
 
-      if (dragSnapToOrigin) transition = { min: 0, max: 0 };
+      if (dragSnapToOrigin) transition = { max: 0, min: 0 };
 
       /**
        * Overdamp the boundary spring if `dragElastic` is disabled. There's still a frame
@@ -360,13 +361,13 @@ export class VisualElementDragControls {
       const bounceDamping = dragElastic ? 40 : 10000000;
 
       const inertia = {
-        type: "inertia" as AnimationGeneratorType,
-        velocity: dragMomentum ? velocity[axis] : 0,
-        bounceStiffness,
         bounceDamping,
-        timeConstant: 750,
+        bounceStiffness,
         restDelta: 1,
         restSpeed: 10,
+        timeConstant: 750,
+        type: "inertia" as AnimationGeneratorType,
+        velocity: dragMomentum ? velocity[axis] : 0,
         ...dragTransition,
         ...transition,
       };
@@ -463,7 +464,7 @@ export class VisualElementDragControls {
       const axisValue = this.getAxisMotionValue(axis);
       if (axisValue && this.constraints !== false) {
         const latest = axisValue.get();
-        boxProgress[axis] = calcOrigin({ min: latest, max: latest }, this.constraints[axis] as Axis);
+        boxProgress[axis] = calcOrigin({ max: latest, min: latest }, this.constraints[axis] as Axis);
       }
     });
 
@@ -567,11 +568,11 @@ export class VisualElementDragControls {
     return {
       ...props,
       drag,
-      dragDirectionLock,
-      dragPropagation,
       dragConstraints,
+      dragDirectionLock,
       dragElastic,
       dragMomentum,
+      dragPropagation,
     };
   }
 }

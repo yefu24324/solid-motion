@@ -1,5 +1,5 @@
 import type { DOMKeyframesDefinition } from "framer-motion";
-import { createEffect, onCleanup, splitProps, useContext } from "solid-js";
+import { createEffect, onCleanup, useContext } from "solid-js";
 
 import { AnimatePresenceContext } from "@/components/context/animate-presence-context";
 import { LayoutGroupContext } from "@/components/context/layout-group-context";
@@ -21,7 +21,6 @@ export function animateView(callback: VoidFunction) {
 }
 
 export function useMotionState(props: MotionProps) {
-  const [_, rest] = splitProps(props, ["children"]);
   // layout group context
   const layoutGroup = useContext(LayoutGroupContext);
   // motion config context
@@ -54,14 +53,14 @@ export function useMotionState(props: MotionProps) {
         ...(state.isMounted() ? state.target : state.baseTarget),
         ...styleProps,
       } as DOMKeyframesDefinition);
-      if (style["transform"] || attrs["transformOrigin"]) {
-        style["transformOrigin"] = attrs["transformOrigin"] ?? "50% 50%";
-        delete attrs["transformOrigin"];
+      if (style.transform || attrs.transformOrigin) {
+        style.transformOrigin = attrs.transformOrigin ?? "50% 50%";
+        delete attrs.transformOrigin;
       }
       // If the transformBox is not set, set it to fill-box
-      if (style["transform"]) {
-        style["transformBox"] = style["transformBox"] ?? "fill-box";
-        delete attrs["transformBox"];
+      if (style.transform) {
+        style.transformBox = style.transformBox ?? "fill-box";
+        delete attrs.transformBox;
       }
       styleProps = style;
     }
@@ -99,6 +98,7 @@ export function useMotionState(props: MotionProps) {
       style: props.style,
       transformTemplate: props.transformTemplate,
       transition: props.transition,
+      variants: props.variants,
     };
   }
 

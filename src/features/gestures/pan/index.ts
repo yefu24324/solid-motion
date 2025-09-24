@@ -1,9 +1,10 @@
 import { frame, noop } from "framer-motion/dom";
-import type { PanInfo } from "./PanSession";
-import { PanSession } from "./PanSession";
+
 import { addPointerEvent } from "@/events";
 import { Feature } from "@/features/feature";
 import { getContextWindow } from "@/utils";
+import type { PanInfo } from "./PanSession";
+import { PanSession } from "./PanSession";
 
 type PanEventHandler = (event: PointerEvent, info: PanInfo) => void;
 function asyncHandler(handler?: PanEventHandler) {
@@ -21,13 +22,24 @@ export class PanGesture extends Feature {
 
   onPointerDown(pointerDownEvent: PointerEvent) {
     this.session = new PanSession(pointerDownEvent, this.createPanHandlers(), {
-      transformPagePoint: this.state.visualElement.getTransformPagePoint(),
       contextWindow: getContextWindow(this.state.visualElement),
+      transformPagePoint: this.state.visualElement.getTransformPagePoint(),
     });
   }
 
   createPanHandlers() {
     return {
+      onEnd: (event: PointerEvent, info: PanInfo) => {
+        const { onPanEnd } = this.state.options;
+        delete this.session;
+        if (onPanEnd) {
+          frame.postRender(() => onPanEnd(event, info));
+        }
+      },
+      onMove: (event, info) => {
+        const { onPan } = this.state.options;
+        onPan && onPan(event, info);
+      },
       onSessionStart: asyncHandler((_, info) => {
         const { onPanSessionStart } = this.state.options;
         onPanSessionStart && onPanSessionStart(_, info);
@@ -36,17 +48,6 @@ export class PanGesture extends Feature {
         const { onPanStart } = this.state.options;
         onPanStart && onPanStart(_, info);
       }),
-      onMove: (event, info) => {
-        const { onPan } = this.state.options;
-        onPan && onPan(event, info);
-      },
-      onEnd: (event: PointerEvent, info: PanInfo) => {
-        const { onPanEnd } = this.state.options;
-        delete this.session;
-        if (onPanEnd) {
-          frame.postRender(() => onPanEnd(event, info));
-        }
-      },
     };
   }
 

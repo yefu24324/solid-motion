@@ -1,8 +1,9 @@
 import type { DOMKeyframesDefinition, ResolvedValues } from "framer-motion";
-import { isCssVar, isNumber } from "./utils";
-import { buildTransformTemplate, isTransform, transformAlias, transformDefinitions } from "./transform";
 import { isMotionValue, px } from "framer-motion/dom";
+
 import type { MotionStyle } from "@/types";
+import { buildTransformTemplate, isTransform, transformAlias, transformDefinitions } from "./transform";
+import { isCssVar, isNumber } from "./utils";
 
 type MotionStyleKey = Exclude<keyof CSSStyleDeclaration, "length" | "parentRule">;
 
@@ -62,48 +63,48 @@ export function createStyles(keyframes?: MotionStyle | DOMKeyframesDefinition): 
 }
 
 const SVG_STYLE_TO_ATTRIBUTES = {
-  fill: true,
-  stroke: true,
-  opacity: true,
-  "stroke-width": true,
-  "fill-opacity": true,
-  "stroke-opacity": true,
-  "stroke-linecap": true,
-  "stroke-linejoin": true,
-  "stroke-dasharray": true,
-  "stroke-dashoffset": true,
+  "clip-path": true,
   cx: true,
   cy: true,
-  r: true,
   d: true,
-  x1: true,
-  y1: true,
-  x2: true,
-  y2: true,
-  points: true,
-  "path-length": true,
-  viewBox: true,
-  width: true,
-  height: true,
-  "preserve-aspect-ratio": true,
-  "clip-path": true,
-  filter: true,
-  mask: true,
-  "stop-color": true,
-  "stop-opacity": true,
-  "gradient-transform": true,
-  "gradient-units": true,
-  "spread-method": true,
-  "marker-end": true,
-  "marker-mid": true,
-  "marker-start": true,
-  "text-anchor": true,
   "dominant-baseline": true,
+  fill: true,
+  "fill-opacity": true,
+  filter: true,
   "font-family": true,
   "font-size": true,
   "font-weight": true,
+  "gradient-transform": true,
+  "gradient-units": true,
+  height: true,
   "letter-spacing": true,
+  "marker-end": true,
+  "marker-mid": true,
+  "marker-start": true,
+  mask: true,
+  opacity: true,
+  "path-length": true,
+  points: true,
+  "preserve-aspect-ratio": true,
+  r: true,
+  "spread-method": true,
+  "stop-color": true,
+  "stop-opacity": true,
+  stroke: true,
+  "stroke-dasharray": true,
+  "stroke-dashoffset": true,
+  "stroke-linecap": true,
+  "stroke-linejoin": true,
+  "stroke-opacity": true,
+  "stroke-width": true,
+  "text-anchor": true,
   "vector-effect": true,
+  viewBox: true,
+  width: true,
+  x1: true,
+  x2: true,
+  y1: true,
+  y2: true,
 } as const;
 
 function camelToKebab(str: string): string {

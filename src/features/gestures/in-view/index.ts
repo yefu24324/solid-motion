@@ -1,6 +1,7 @@
-import type { MotionState } from "@/state/motion-state";
-import { Feature } from "@/features";
 import { frame, inView } from "framer-motion/dom";
+
+import { Feature } from "@/features";
+import type { MotionState } from "@/state/motion-state";
 import type { Options } from "@/types";
 
 function handleHoverEvent(state: MotionState, entry: IntersectionObserverEntry, lifecycle: "Enter" | "Leave") {

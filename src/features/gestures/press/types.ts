@@ -1,6 +1,7 @@
-import type { VariantType } from "@/types";
 import type { EventInfo } from "framer-motion";
 import type { VariantLabels } from "motion-dom";
+
+import type { VariantType } from "@/types";
 
 export type PressEvent = (event: PointerEvent, info: EventInfo) => void;
 

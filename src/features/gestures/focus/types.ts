@@ -1,5 +1,6 @@
-import type { VariantType } from "@/types";
 import type { VariantLabels } from "motion-dom";
+
+import type { VariantType } from "@/types";
 
 export type FocusProps = {
   /**

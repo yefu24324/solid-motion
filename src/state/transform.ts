@@ -1,25 +1,25 @@
-import type { CssPropertyDefinition, CssPropertyDefinitionMap } from "@/types";
 import { noopReturn } from "@/state/utils";
+import type { CssPropertyDefinition, CssPropertyDefinitionMap } from "@/types";
 
 const rotation: CssPropertyDefinition = {
-  syntax: "<angle>",
   initialValue: "0deg",
+  syntax: "<angle>",
   toDefaultUnit: (v: number) => `${v}deg`,
 };
 
 const baseTransformProperties: CssPropertyDefinitionMap = {
-  translate: {
-    syntax: "<length-percentage>",
-    initialValue: "0px",
-    toDefaultUnit: (v: number) => `${v}px`,
-  },
   rotate: rotation,
   scale: {
-    syntax: "<number>",
     initialValue: 1,
+    syntax: "<number>",
     toDefaultUnit: noopReturn,
   },
   skew: rotation,
+  translate: {
+    initialValue: "0px",
+    syntax: "<length-percentage>",
+    toDefaultUnit: (v: number) => `${v}px`,
+  },
 };
 
 /**
@@ -89,10 +89,10 @@ export function buildTransformTemplate(transforms: [string, any][]): string {
 }
 
 export const transformResetValue = {
-  translate: [0, 0],
   rotate: 0,
   scale: 1,
   skew: 0,
+  translate: [0, 0],
   x: 0,
   y: 0,
   z: 0,

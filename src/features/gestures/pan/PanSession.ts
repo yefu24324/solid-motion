@@ -1,7 +1,8 @@
 import type { EventInfo, Point, TransformPoint } from "framer-motion";
+import { cancelFrame, distance2D, frame, frameData, millisecondsToSeconds, pipe, secondsToMilliseconds } from "framer-motion/dom";
+
 import { addPointerEvent, isPrimaryPointer } from "@/events";
 import { extractEventInfo } from "@/events/event-info";
-import { cancelFrame, distance2D, frame, frameData, millisecondsToSeconds, pipe, secondsToMilliseconds } from "framer-motion/dom";
 
 /**
  * Passed in to pan event handlers like `onPan` the `PanInfo` object contains
@@ -250,9 +251,9 @@ function subtractPoint(a: Point, b: Point): Point {
 
 function getPanInfo({ point }: EventInfo, history: TimestampedPoint[]) {
   return {
-    point,
     delta: subtractPoint(point, lastDevicePoint(history)),
     offset: subtractPoint(point, startDevicePoint(history)),
+    point,
     velocity: getVelocity(history, 0.1),
   };
 }

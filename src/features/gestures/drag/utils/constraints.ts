@@ -1,7 +1,8 @@
+import type { Axis, BoundingBox, Box, DragElastic } from "framer-motion";
+import { progress as calcProgress, clamp, mixNumber } from "framer-motion/dom";
+
 import type { ResolvedConstraints } from "@/features/gestures/drag/types";
 import { calcLength } from "@/projection/geometry/delta-calc";
-import { progress as calcProgress, clamp, mixNumber } from "framer-motion/dom";
-import type { Axis, BoundingBox, Box, DragElastic } from "framer-motion";
 
 /**
  * Apply constraints to a point. These constraints are both physical along an
@@ -40,8 +41,8 @@ export function calcRelativeConstraints(layoutBox: Box, { top, left, bottom, rig
  */
 export function calcRelativeAxisConstraints(axis: Axis, min?: number, max?: number): Partial<Axis> {
   return {
-    min: min !== undefined ? axis.min + min : undefined,
     max: max !== undefined ? axis.max + max - (axis.max - axis.min) : undefined,
+    min: min !== undefined ? axis.min + min : undefined,
   };
 }
 
@@ -63,8 +64,8 @@ export function resolveDragElastic(dragElastic: DragElastic = defaultElastic): B
 
 export function resolveAxisElastic(dragElastic: DragElastic, minLabel: string, maxLabel: string): Axis {
   return {
-    min: resolvePointElastic(dragElastic, minLabel),
     max: resolvePointElastic(dragElastic, maxLabel),
+    min: resolvePointElastic(dragElastic, minLabel),
   };
 }
 
@@ -112,7 +113,7 @@ export function calcViewportAxisConstraints(layoutAxis: Axis, constraintsAxis: A
     [min, max] = [max, min];
   }
 
-  return { min, max };
+  return { max, min };
 }
 
 /**

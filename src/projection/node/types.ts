@@ -1,11 +1,12 @@
 import type { JSAnimation, Transition, ValueTransition } from "motion-dom";
-import { Box, Delta, Point } from "motion-utils";
-import { InitialPromotionConfig } from "../../context/SwitchLayoutGroupContext";
-import { MotionStyle } from "../../motion/types";
-import { ResolvedValues } from "../../render/types";
-import { FlatTree } from "../../render/utils/flat-tree";
+import type { Box, Delta, Point } from "motion-utils";
+
+import type { InitialPromotionConfig } from "../../context/SwitchLayoutGroupContext";
+import type { MotionStyle } from "../../motion/types";
+import type { ResolvedValues } from "../../render/types";
+import type { FlatTree } from "../../render/utils/flat-tree";
 import type { VisualElement } from "../../render/VisualElement";
-import { NodeStack } from "../shared/stack";
+import type { NodeStack } from "../shared/stack";
 
 export interface Measurements {
   animationId: number;

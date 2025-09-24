@@ -1,4 +1,5 @@
-import { Blocks, BringToFront, GitPullRequest, EqualApproximately } from "lucide-solid";
+import { Blocks, BringToFront, EqualApproximately, GitPullRequest } from "lucide-solid";
+
 import { MotionHighlight } from "../effects/motion-highlight.jsx";
 
 const CARDS = [

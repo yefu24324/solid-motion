@@ -1,10 +1,8 @@
 import { resolveElements } from "@solid-primitives/refs";
 import type { Transition, VariantLabels } from "motion";
 import { createEffect, createSignal, For, type JSX, onCleanup, Show } from "solid-js";
-import { AnimatePresence, Motion } from "solid-motion";
+import { AnimatePresence, type AnimationControls, Motion, type Variants, type VariantType } from "solid-motion";
 
-import type { AnimationControls } from "@/animation/types";
-import type { VariantType } from "@/types/state.js";
 import { cn } from "../../lib/utils.js";
 
 export function TextLoopDemo() {
@@ -97,19 +95,19 @@ export function TextLoop(props: TextLoopProps) {
     if (timer) clearInterval(timer);
   });
 
+  const motionVariants: Variants = {
+    animate: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: -20 },
+    initial: { opacity: 0, y: 20 },
+  };
+
   return (
     <div class={cn("relative inline-block whitespace-nowrap", props.class)}>
       <AnimatePresence anchorX="left" mode="popLayout">
         <For each={items.toArray()}>
           {(child, index) => (
             <Show when={currentIndex() === index()}>
-              <Motion
-                animate={props.animate || { opacity: 1, y: 0 }}
-                data-idx={index()}
-                exit={props.exit || { opacity: 0, y: -20 }}
-                initial={props.initial || { opacity: 0, y: 20 }}
-                transition={props.transition || { duration: 0.3 }}
-              >
+              <Motion animate="animate" exit="exit" initial="initial" transition={props.transition || { duration: 0.3 }} variants={motionVariants}>
                 {child}
               </Motion>
             </Show>

@@ -1,10 +1,11 @@
+import type { VisualElement } from "framer-motion";
+import { setTarget } from "framer-motion/dist/es/render/utils/setters.mjs";
+import { invariant } from "hey-listen";
+
 import type { AnimationControls } from "@/animation/types";
 import { type MotionState, mountedStates } from "@/state";
-import type { Options } from "@/types";
-import { invariant } from "hey-listen";
-import { setTarget } from "framer-motion/dist/es/render/utils/setters.mjs";
-import type { VisualElement } from "framer-motion";
 import { resolveVariant } from "@/state/utils";
+import type { Options } from "@/types";
 
 function stopAnimation(visualElement: VisualElement) {
   visualElement.values.forEach((value) => value.stop());
@@ -33,9 +34,20 @@ export function animationControls(): AnimationControls {
   const subscribers = new Set<MotionState>();
 
   const controls: AnimationControls = {
-    subscribe(state) {
-      subscribers.add(state);
-      return () => void subscribers.delete(state);
+    mount() {
+      hasMounted = true;
+
+      return () => {
+        hasMounted = false;
+        controls.stop();
+      };
+    },
+
+    set(definition) {
+      invariant(hasMounted, "controls.set() should only be called after a component has mounted. Consider calling within a useEffect hook.");
+      return subscribers.forEach((state) => {
+        setValues(state, definition);
+      });
     },
 
     start(definition, transitionOverride) {
@@ -54,26 +66,14 @@ export function animationControls(): AnimationControls {
       return Promise.all(animations);
     },
 
-    set(definition) {
-      invariant(hasMounted, "controls.set() should only be called after a component has mounted. Consider calling within a useEffect hook.");
-      return subscribers.forEach((state) => {
-        setValues(state, definition);
-      });
-    },
-
     stop() {
       subscribers.forEach((state) => {
         stopAnimation(state.visualElement);
       });
     },
-
-    mount() {
-      hasMounted = true;
-
-      return () => {
-        hasMounted = false;
-        controls.stop();
-      };
+    subscribe(state) {
+      subscribers.add(state);
+      return () => void subscribers.delete(state);
     },
   };
 

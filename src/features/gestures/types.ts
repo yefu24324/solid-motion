@@ -1,5 +1,6 @@
-import type { Options } from "@/types";
 import type { InertiaOptions } from "framer-motion";
+
+import type { Options } from "@/types";
 
 export interface StateHandlers {
   enable: VoidFunction;

@@ -1,6 +1,8 @@
-import type { $Transition, AsTag, Options, VariantType } from "@/types";
+import type { ValidComponent } from "solid-js";
 
-export function resolveVariant(definition?: Options["animate"], variants?: Options["variants"], custom?: Options["custom"]): VariantType | undefined {
+import type { $Transition, Options, Variants, VariantType } from "@/types";
+
+export function resolveVariant(definition?: Options["animate"], variants?: Variants, custom?: Options["custom"]): VariantType | undefined {
   if (Array.isArray(definition)) {
     return definition.reduce((acc, item) => {
       const resolvedVariant = resolveVariant(item, variants, custom);
@@ -117,6 +119,6 @@ type UnionStringArray<T extends Readonly<string[]>> = T[number];
 export type SVGElements = UnionStringArray<typeof svgElements>;
 
 const svgElementSet = new Set(svgElements);
-export function isSVGElement(as: AsTag): as is SVGElements {
+export function isSVGElement(as: ValidComponent): as is SVGElements {
   return svgElementSet.has(as as SVGElements);
 }
