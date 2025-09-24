@@ -15,7 +15,8 @@
       "framer-motion/dist/es/projection/styles/scale-border-radius.mjs": ["./node_modules/framer-motion/dist/es/projection/styles/scale-border-radius.mjs"],
       "framer-motion/dist/es/projection/styles/scale-box-shadow.mjs": ["./node_modules/framer-motion/dist/es/projection/styles/scale-box-shadow.mjs"],
       "framer-motion/dist/es/projection/node/HTMLProjectionNode.mjs": ["./node_modules/framer-motion/dist/es/projection/node/HTMLProjectionNode.mjs"],
-      "framer-motion/dist/es/render/store.mjs": ["./node_modules/framer-motion/dist/es/render/store.mjs"]
+      "framer-motion/dist/es/render/store.mjs": ["./node_modules/framer-motion/dist/es/render/store.mjs"],
+      "framer-motion/dist/es/utils/delay.mjs": ["./node_modules/framer-motion/dist/es/utils/delay.mjs"]
     }
   },
   "include": ["src", "example"],

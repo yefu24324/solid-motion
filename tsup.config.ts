@@ -37,6 +37,7 @@ export default tsup.defineConfig((config) => {
       "framer-motion/dist/es/projection/styles/scale-box-shadow.mjs",
       "framer-motion/dist/es/projection/node/HTMLProjectionNode.mjs",
       "framer-motion/dist/es/utils/reduced-motion/state.mjs",
+      "framer-motion/dist/es/utils/delay.mjs",
     ];
   }
   return configs;
