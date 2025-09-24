@@ -15,7 +15,7 @@ export function Motion<T extends ValidComponent = "div">(props: MotionProps<T>) 
   const { state, getMotionOptions, getAttrs } = useMotionState(mergedProps as MotionProps);
 
   return (
-    <MotionContextProvider animate={props.animate} initial={props.initial}>
+    <MotionContextProvider animate={props.animate} initial={props.initial} state={state}>
       <Dynamic
         component={local.as || "div"}
         ref={mergeRefs(local.ref, (element) => {

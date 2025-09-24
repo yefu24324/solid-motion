@@ -1,5 +1,5 @@
 import type { VariantLabels } from "framer-motion/dom";
-import { createContext, type JSX, mergeProps, splitProps, useContext } from "solid-js";
+import { createContext, type JSX, splitProps } from "solid-js";
 
 import type { AnimationControls } from "@/animation/types";
 import type { MotionState } from "@/state";
@@ -21,9 +21,7 @@ export interface MotionContextProviderProps {
 }
 
 export function MotionContextProvider(props: MotionContextProviderProps) {
-  const parent = useContext(MotionContext);
   const [_, rest] = splitProps(props, ["children"]);
-  const merge = mergeProps(parent, rest);
 
-  return <MotionContext.Provider value={merge}>{props.children}</MotionContext.Provider>;
+  return <MotionContext.Provider value={rest}>{props.children}</MotionContext.Provider>;
 }

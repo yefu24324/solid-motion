@@ -7,7 +7,8 @@ import type { Feature, StateType } from "@/features";
 import { FeatureManager } from "@/features";
 import type { AnimateUpdates } from "@/features/animation/types";
 import { isSVGElement, resolveVariant } from "@/state/utils";
-import type { $Transition, Options } from "@/types";
+import { isVariantLabels } from "@/state/utils/is-variant-labels";
+import type { $Transition, MotionStateContext, Options } from "@/types";
 
 // Map to track mounted motion states by element
 export const mountedStates = new WeakMap<Element, MotionState>();
@@ -30,7 +31,6 @@ export class MotionState {
     animatePresenceContext?: PresenceContext;
     features?: Array<typeof Feature>;
   };
-  public context: IMotionContext;
 
   // Track child components for proper lifecycle ordering
   private children: Set<MotionState> = new Set();
@@ -67,7 +67,6 @@ export class MotionState {
     this.id = `motion-state-${id++}`;
     this.options = options;
     this.parent = context.state;
-    this.context = context;
 
     // Initialize with either initial or animate variant
     const initial = options.initial === undefined && options.variants ? this.context.initial : options.initial;
@@ -82,6 +81,22 @@ export class MotionState {
     this.target = {};
     this.featureManager = new FeatureManager(this);
     this.type = isSVGElement(this.options.as) ? "svg" : "html";
+  }
+
+  private _context: MotionStateContext | null = null;
+
+  // Get animation context, falling back to parent context for inheritance
+  get context() {
+    if (!this._context) {
+      const handler = {
+        get: (target: MotionStateContext, prop: keyof MotionStateContext) => {
+          return isVariantLabels(this.options[prop]) ? this.options[prop] : this.parent?.context[prop];
+        },
+      };
+
+      this._context = new Proxy({} as MotionStateContext, handler);
+    }
+    return this._context;
   }
 
   // Update visual element with new options

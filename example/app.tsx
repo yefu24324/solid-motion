@@ -3,6 +3,7 @@ import "./app.css";
 
 import { MotionEffectImageGridDemo } from "./components/animate-ui/demo/motion-effect-image-grid-demo.jsx";
 import { MotionHighlightCardsHoverDemo } from "./components/animate-ui/demo/motion-highlight-cards-hover-demo.jsx";
+import { TextEffectDemo } from "./components/motion/text-effect-demo";
 import { TextLoopDemo } from "./components/motion/text-loop-demo.jsx";
 import { Base } from "./demo/base.jsx";
 import { CollapsibleDemo } from "./demo/collapsible";
@@ -47,6 +48,10 @@ export default function App() {
       value: "TextLoopDemo",
     },
     {
+      label: "Text Effect",
+      value: "TextEffectDemo",
+    },
+    {
       label: "Motion Highlight",
       value: "MotionHighlightCardsHoverDemo",
     },
@@ -89,6 +94,9 @@ export default function App() {
         </Show>
         <Show when={tab() === "TextLoopDemo"}>
           <TextLoopDemo />
+        </Show>
+        <Show when={tab() === "TextEffectDemo"}>
+          <TextEffectDemo />
         </Show>
         <Show when={tab() === "MotionHighlightCardsHoverDemo"}>
           <MotionHighlightCardsHoverDemo />
