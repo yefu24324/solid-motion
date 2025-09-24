@@ -1,6 +1,6 @@
 import type { TargetAndTransition, Transition } from "motion-dom";
-import { For, type JSX, mergeProps, Show, useContext, type ValidComponent } from "solid-js";
-import { AnimatePresence, Motion, MotionContext, type Variants, type VariantType } from "solid-motion";
+import { For, type JSX, mergeProps, Show, type ValidComponent } from "solid-js";
+import { AnimatePresence, Motion, type Variant, type Variants, type VariantType } from "solid-motion";
 
 export type PresetType = "blur" | "fade-in-blur" | "scale" | "fade" | "slide";
 
@@ -11,8 +11,8 @@ export interface TextEffectProps {
   per?: PerType;
   as?: ValidComponent;
   variants?: {
-    container?: VariantType;
-    item?: VariantType;
+    container?: Variants;
+    item?: Variants;
   };
   class?: string;
   preset?: PresetType;
@@ -23,8 +23,8 @@ export interface TextEffectProps {
   onAnimationComplete?: () => void;
   onAnimationStart?: () => void;
   segmentWrapperClass?: string;
-  // containerTransition?: Transition;
-  // segmentTransition?: Transition;
+  containerTransition?: Transition;
+  segmentTransition?: Transition;
   style?: JSX.CSSProperties;
 }
 
@@ -99,8 +99,6 @@ const presetVariants: Record<PresetType, { container: Variants; item: Variants }
 };
 
 export function AnimationComponent(props: { segment: string; variants: Variants; per: "line" | "word" | "char"; segmentWrapperClassName?: string }) {
-  const context = useContext(MotionContext);
-  console.log("animation component", context);
   return (
     <Motion as="span">
       <For each={props.segment.split("")}>
@@ -119,7 +117,7 @@ const splitText = (text: string, per: PerType) => {
   return text.split(/(\s+)/);
 };
 
-const hasTransition = (variant?: VariantType): variant is TargetAndTransition & { transition?: Transition } => {
+const hasTransition = (variant?: Variant): variant is VariantType & { transition?: Transition } => {
   if (!variant) return false;
   return typeof variant === "object" && "transition" in variant;
 };
@@ -142,7 +140,7 @@ const createVariantsWithTransition = (baseVariants: Variants, transition?: Trans
     visible: {
       ...baseVariants.visible,
       transition: {
-        ...(hasTransition(baseVariants.visible as VariantType) ? baseVariants.visible.transition : {}),
+        ...(hasTransition(baseVariants.visible) ? baseVariants.visible.transition : {}),
         ...mainTransition,
       },
     },

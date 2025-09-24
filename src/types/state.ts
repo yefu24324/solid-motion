@@ -67,8 +67,10 @@ export interface VariantType extends DOMKeyframesDefinition {
   attrScale?: DOMKeyframesDefinition["scale"];
 }
 
-export interface Variants<T extends HTMLElement | SVGElement = HTMLElement | SVGElement> {
-  [k: string]: VariantType | ((custom: T) => VariantType);
+export type Variant = VariantType | ((custom: any) => VariantType);
+
+export interface Variants {
+  [k: string]: Variant;
 }
 
 interface BoundingBox {
@@ -101,7 +103,7 @@ export interface Options<T extends HTMLElement | SVGElement = HTMLElement | SVGE
   initial?: VariantLabels | VariantType | boolean;
   animate?: VariantLabels | VariantType | AnimationControls;
   exit?: VariantLabels | VariantType;
-  variants?: Variants<T>;
+  variants?: Variants;
   inherit?: boolean;
   style?: MotionStyle;
   transformTemplate?: (transform: TransformProperties, generatedTransform: string) => string;
